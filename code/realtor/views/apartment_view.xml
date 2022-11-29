@@ -1,0 +1,50 @@
+<odoo>
+
+    <!-- actions opening the view -->
+
+<!--    <record model="ir.ui.view" id="apartment_tree_view">-->
+<!--        <field name="name">realtor.apartment.tree</field>-->
+<!--        <field name="model">realtor.apartment</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+<!--                <field name="name"/>-->
+<!--                <field name="description"/>-->
+<!--                <field name="date_disponibility"/>-->
+<!--                <field name="expected_price"/>-->
+<!--                <field name="apartment_area"/>-->
+<!--                <field name="terrace_area"/>-->
+<!--                <field name="total_area"/>-->
+<!--                <field name="best_buyer"/>-->
+<!--                <field name="best_offer"/>-->
+<!--                <field name="disponible"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- search view -->
+
+<!--    <record model="ir.ui.view" id="apartment_filters">-->
+<!--        <field name="name">apartment.search</field>-->
+<!--        <field name="model">apartment</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search>-->
+<!--                <field name="is_done"/>-->
+<!--                <filter string="Is done ?" name="is_done" domain="[('is_done', '=', 1)]"/>-->
+<!--                <filter string="Is not done ?" name="is_not_done" domain="[('is_done', '=', 0)]"/>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- This is not really a form. It just shows the different tasks that a Team is responsible for.-->
+    <record model="ir.ui.view" id="apartment_buyers">
+        <field name="name">realtor.apartment.buyers</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="apartment_ids" string="Appartements de l'acheteur"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
