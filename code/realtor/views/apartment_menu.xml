@@ -4,7 +4,7 @@
     <!-- actions opening views on models -->
 
     <record model="ir.actions.act_window" id="apartment_list_item">
-      <field name="name">Realtor window</field>
+      <field name="name">Appartements</field>
       <field name="res_model">realtor.apartment</field>
       <field name="view_mode">tree,form</field>
     </record>
