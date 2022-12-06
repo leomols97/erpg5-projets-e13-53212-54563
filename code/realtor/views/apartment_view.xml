@@ -17,8 +17,8 @@
                     <field name="best_buyer"/>
                     <field name="best_offer"/>
                     <field name="disponible"/>
-                    <field name="date_creation" readonly="1" />
-                    <field name="date_disponibility" readonly="1" />
+                    <field name="date_creation"/>
+                    <field name="date_disponibility"/>
                 </tree>
             </field>
         </record>
