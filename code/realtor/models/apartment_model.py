@@ -1,6 +1,7 @@
 from odoo import api, fields, models, exceptions
 from odoo.exceptions import ValidationError
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class Apartment(models.Model):
@@ -16,14 +17,13 @@ class Apartment(models.Model):
     best_buyer = fields.Many2many('res.partner', string='Meilleur acheteur')
     best_offer = fields.Integer('Meilleure offre')
     disponible = fields.Boolean('Disponible?', default=False)
-    date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today())
-    date_disponibility = fields.Date(string='Date de création de l\'appartement', default=datetime.today())
+    date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
+    date_disponibility = fields.Date(string='Date de création de l\'appartement', default=datetime.today() + relativedelta(months=3))
 
-    # @api.constrains('end_date', 'date_disponibility')
-    # def date_constrains(self):
-    #     for rec in self:
-    #         if rec.end_date < rec.date_creation:
-    #             raise ValidationError('Sorry, End Date Must be greater Than Disponibility Date...')
+    @api.constrains ( 'date_disponibility')
+    def _check_dates( self ):
+        if self.date_disponibility < (self.date_creation + relativedelta(months=3)):
+            raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement.'" )
 
     @api.constrains('expected_price')
     def _check_expected_price(self):
