@@ -14,12 +14,12 @@ class Apartment(models.Model):
     apartment_area = fields.Integer(string='Surface de l\'appartement', required=True, min=1)
     terrace_area = fields.Integer(string='Surface de la terrasse', required=True, min=1)
     total_area = fields.Integer(string='Surface totale', compute='_compute_total_area')
-    offers = fields.Many2many('realtor.offer', string='Offres')
+    offer = fields.Many2many('realtor.offer', string='Offres')
     best_buyer = fields.Many2many('res.partner', string='Acheteurs potentiels')
-    best_offer_price = fields.Integer(string='Meilleure offre')
+    # best_offer_price = fields.Integer(string='Meilleure offre')
     disponible = fields.Boolean(string='Disponible?', default=False)
     date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
-    date_disponibility = fields.Date(string='Date de création de l\'appartement', default=datetime.today() + relativedelta(months=3))
+    date_disponibility = fields.Date(string='Date de disponibilité de l\'appartement', default=datetime.today() + relativedelta(months=3))
 
     @api.constrains('date_creation', 'date_disponibility')
     def _check_dates( self ):

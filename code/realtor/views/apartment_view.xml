@@ -15,7 +15,7 @@
                     <field name="terrace_area"/>
                     <field name="total_area"/>
                     <field name="best_buyer"/>
-                    <field name="best_offer"/>
+<!--                    <field name="best_offer"/>-->
                     <field name="disponible"/>
                     <field name="date_creation"/>
                     <field name="date_disponibility"/>
@@ -37,14 +37,14 @@
         <!--        </field>-->
         <!--    </record>-->
 
-        <!-- This is not really a form. It just shows the different tasks that a Team is responsible for.-->
+        <!-- This is not really a form. It just shows the different apartment that a Team is responsible for.-->
         <record model="ir.ui.view" id="apartment_buyers">
             <field name="name">realtor.apartment.buyers</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="category_id" position="after">
-                    <field name="apartment_ids" string="Appartements de l'acheteur"/>
+<!--                    <field name="apartment_ids" string="Appartements de l'acheteur"/>-->
                 </field>
             </field>
         </record>
