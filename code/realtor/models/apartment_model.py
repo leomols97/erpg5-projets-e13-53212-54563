@@ -16,8 +16,7 @@ class Apartment(models.Model):
     total_area = fields.Integer(string='Surface totale', compute='_compute_total_area')
     offers = fields.Many2many('realtor.offer', string='Offres')
     best_buyer = fields.Many2many('res.partner', string='Acheteurs potentiels')
-    best_offer = fields.Integer(string='Meilleure offre')
-    # seller = fields.Many2one('realtor.seller', string='Vendeur')
+    best_offer_price = fields.Integer(string='Meilleure offre')
     disponible = fields.Boolean(string='Disponible?', default=False)
     date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
     date_disponibility = fields.Date(string='Date de création de l\'appartement', default=datetime.today() + relativedelta(months=3))
@@ -60,21 +59,21 @@ class Apartment(models.Model):
         for record in self:
             record.total_area = record.terrace_area + record.apartment_area
 
-    @api.depends('expected_price', 'best_offer')
+    @api.depends('expected_price', 'best_offer_price')
     def _compute_min_price(self):
         """ Checks if the best offer is not lower than 90% of the expected price """
-        if self.best_offer < (self.expected_price * 0.9):
+        if self.best_offer_price < (self.expected_price * 0.9):
             raise ValidationError('L\'offre doit être de minimum 90% du prix attendu')
 
 
     # @api.depends('offers')
-    # def _compute_best_offer(self):
+    # def _compute_best_offer_price(self):
     #     """ Looks for the best offer for an apartment """
     #     for record in self:
     #         for offer in record:
     #             if record.price < offer.price:
     #                 record.best_buyer = offer.buyer
-    #                 record.best_offer = offer.price
+    #                 record.best_offer_price = offer.price
 
     @api.constrains('date_creation', 'date_disponibility', 'disponible')
     def _check_disponibility(self):
