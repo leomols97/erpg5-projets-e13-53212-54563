@@ -1,31 +1,58 @@
 <odoo>
-    <data>
-<!--
-
-          <record id="object0" model="res.partner">
-            <field name="name">Object 0</field>
-            <field name="value">0</field>
+  <data>
+    <odoo>
+      <data>
+        <data noupdate="1">
+          <!--  Initials apartment  -->
+          <record model="realtor.apartment" id="smallApartment">
+            <field name="name">smallApartment</field>
+            <field name="description">it's a small apartment</field>
+            <field name="expected_price">200000</field>
+            <field name="apartment_area">70</field>
+            <field name="terrace_area">10</field>
           </record>
-
-          <record id="object1" model="realtor.realtor">
-            <field name="name">Object 1</field>
-            <field name="value">10</field>
+          <record model="realtor.apartment" id="mediumApartment">
+            <field name="name">mediumApartment</field>
+            <field name="description">it is a medium sized apartment</field>
+            <field name="expected_price">300000</field>
+            <field name="apartment_area">150</field>
+            <field name="terrace_area">20</field>
           </record>
-
-          <record id="object2" model="realtor.realtor">
-            <field name="name">Object 2</field>
-            <field name="value">20</field>
+          <record model="realtor.apartment" id="bigApartment">
+            <field name="name">bigApartment</field>
+            <field name="description">it's a big apartment</field>
+            <field name="expected_price">500000</field>
+            <field name="apartment_area">350</field>
+            <field name="terrace_area">40</field>
           </record>
-
-          <record id="object3" model="realtor.realtor">
-            <field name="name">Object 3</field>
-            <field name="value">30</field>
+          <!--  Initials partners(acheteur)  -->
+          <record model="res.partner" id="acheteur1">
+            <field name="name">acheteur1</field>
           </record>
-
-          <record id="object4" model="realtor.realtor">
-            <field name="name">Object 4</field>
-            <field name="value">40</field>
+          <record model="res.partner" id="acheteur2">
+            <field name="name">acheteur2</field>
           </record>
--->
-    </data>
+          <record model="res.partner" id="acheteur3">
+            <field name="name">acheteur3</field>
+          </record>
+          <!--  Initials users (vendeur)  -->
+          <record model="res.users" id="vendeur1">
+            <field name="name">vendeur1</field>
+            <field name="login">vendeur1</field>
+            <field name="password">vendeur1</field>
+          </record>
+          <record model="res.users" id="vendeur2">
+            <field name="name">vendeur2</field>
+            <field name="login">vendeur2</field>
+            <field name="password">vendeur2</field>
+          </record>
+          <record model="res.users" id="vendeur3">
+            <field name="name">vendeur3</field>
+            <field name="login">vendeur3</field>
+            <field name="password">vendeur3</field>
+          </record>
+        </data>
+      </data>
+    </odoo>
+  </data>
 </odoo>

@@ -14,8 +14,7 @@
                     <field name="apartment_area"/>
                     <field name="terrace_area"/>
                     <field name="total_area"/>
-                    <field name="best_buyer"/>
-<!--                    <field name="best_offer"/>-->
+                    <field name="buyer"/>
                     <field name="disponible"/>
                     <field name="date_creation"/>
                     <field name="date_disponibility"/>

@@ -14,9 +14,9 @@ class Apartment(models.Model):
     apartment_area = fields.Integer(string='Surface de l\'appartement', required=True, min=1)
     terrace_area = fields.Integer(string='Surface de la terrasse', required=True, min=1)
     total_area = fields.Integer(string='Surface totale', compute='_compute_total_area')
-    offer = fields.Many2many('realtor.offer', string='Offres')
-    best_buyer = fields.Many2many('res.partner', string='Acheteurs potentiels')
-    # best_offer_price = fields.Integer(string='Meilleure offre')
+    buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
+    # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
+    best_offer_price = fields.Integer(string='Meilleure offre')
     disponible = fields.Boolean(string='Disponible?', default=False)
     date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
     date_disponibility = fields.Date(string='Date de disponibilité de l\'appartement', default=datetime.today() + relativedelta(months=3))
@@ -66,17 +66,17 @@ class Apartment(models.Model):
             raise ValidationError('L\'offre doit être de minimum 90% du prix attendu')
 
 
-    # @api.depends('offers')
+    # @api.depends('best_offer_price')
     # def _compute_best_offer_price(self):
-    #     """ Looks for the best offer for an apartment """
+    #     """ Looks for the best offer price for an apartment """
     #     for record in self:
-    #         for offer in record:
-    #             if record.price < offer.price:
-    #                 record.best_buyer = offer.buyer
-    #                 record.best_offer_price = offer.price
+    #         for best_offer_price in record:
+    #             if record.price < best_offer_price.price:
+    #                 record.buyer = best_offer_price.buyer
+    #                 record.best_offer_price = best_offer_price.price
 
     @api.constrains('date_creation', 'date_disponibility', 'disponible')
     def _check_disponibility(self):
             """ Checks if the date of disponibility of the apartment is not lower than 3 months after the date of creation of the offer """
-            if self.disponible & self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
+            if self.disponible and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
                 raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
