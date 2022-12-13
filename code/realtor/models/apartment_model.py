@@ -14,12 +14,15 @@ class Apartment(models.Model):
     apartment_area = fields.Integer(string='Surface de l\'appartement', required=True, min=1)
     terrace_area = fields.Integer(string='Surface de la terrasse', required=True, min=1)
     total_area = fields.Integer(string='Surface totale', compute='_compute_total_area')
-    buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
-    # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     best_offer_price = fields.Integer(string='Meilleure offre')
     disponible = fields.Boolean(string='Disponible?', default=False)
     date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
     date_disponibility = fields.Date(string='Date de disponibilité de l\'appartement', default=datetime.today() + relativedelta(months=3))
+
+    buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
+    # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
+    # product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Produits associés à un appartement')
+    # product_ids = fields.One2many('product.template', 'apartment_id')
 
     @api.constrains('date_creation', 'date_disponibility')
     def _check_dates( self ):
@@ -77,6 +80,21 @@ class Apartment(models.Model):
 
     @api.constrains('date_creation', 'date_disponibility', 'disponible')
     def _check_disponibility(self):
-            """ Checks if the date of disponibility of the apartment is not lower than 3 months after the date of creation of the offer """
-            if self.disponible and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
-                raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
+        """ Checks if the date of disponibility of the apartment is not lower than 3 months after the date of creation of the offer """
+        if self.disponible and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
+            raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
+
+    @api.depends('product_ids')
+    def compute_for_only_one_apartment(self):
+        """ From the apartment, makes the program save only one product at a time """
+        if len(self.product_ids) > 0:
+            self.product_id = self.product_ids[0]
+
+    def asset_inverse_for_one_product(self):
+        """ From the product, makes the program save only one apartment at a time """
+        if len(self.product_ids) > 0:
+            # delete previous reference
+            asset = self.env['product.template'].browse(self.product_ids[0].id)
+            asset.apartment_id = False
+        # set new reference
+        self.product_id.apartment_id = self
