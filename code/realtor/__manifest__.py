@@ -31,6 +31,10 @@
         'views/templates.xml',
         'views/apartment_menu.xml',
         'views/apartment_view.xml',
+        'views/product_menu.xml',
+        'views/product_view.xml',
+        'views/stock_menu.xml',
+        'views/stock_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

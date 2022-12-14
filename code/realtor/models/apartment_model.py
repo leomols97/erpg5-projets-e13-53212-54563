@@ -21,8 +21,8 @@ class Apartment(models.Model):
 
     buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
-    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Produits associés à un appartement')
-    product_ids = fields.One2many('product.template', 'apartment_id')
+    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Produit associé à un appartement')
+    product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à un appartement')
 
     @api.constrains('date_creation', 'date_disponibility')
     def _check_dates( self ):
@@ -67,7 +67,6 @@ class Apartment(models.Model):
         """ Checks if the best offer is not lower than 90% of the expected price """
         if self.best_offer_price < (self.expected_price * 0.9):
             raise ValidationError('L\'offre doit être de minimum 90% du prix attendu')
-
 
     # @api.depends('best_offer_price')
     # def _compute_best_offer_price(self):

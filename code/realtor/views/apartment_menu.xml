@@ -3,7 +3,7 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="apartment_list_item">
+    <record model="ir.actions.act_window" id="apartment_list_items">
       <field name="name">Appartements</field>
       <field name="res_model">realtor.apartment</field>
       <field name="view_mode">tree,form</field>
@@ -14,7 +14,7 @@
     <menuitem id="realtor.menu_root" name="Appartement">
       <menuitem id="show_menu_parent" name="Afficher">
         <!-- actions -->
-        <menuitem id="show_apartments" name="Les appartements" action="apartment_list_item"/>
+        <menuitem id="show_apartments" name="Les appartements" action="apartment_list_items"/>
       </menuitem>
     </menuitem>
 

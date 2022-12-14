@@ -5,3 +5,4 @@ class ProductTemplate(models.Model):
     _description = 'Apartment product template'
 
     apartment_id = fields.Many2one('realtor.apartment', string='Appartement associé à un produit')
+    stock_id = fields.Many2one('stock.inventory', string='Stock associé au produit')

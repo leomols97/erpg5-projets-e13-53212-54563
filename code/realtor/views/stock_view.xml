@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="realtor.stock_view_type" model="ir.ui.view">
+        <field name="name">stock.inventory.form</field> <!-- Ceci est pour utiliser la vue proposée par Odoo -->
+        <!-- "priority" se réfère à "sequence" dans la vue interface web d'Odoo. pour utiliser notre propre vue (qui est ce fichier), il suffit de diminuer ce nb de 1 -->
+        <field name="priority">15</field>
+        <field name="model">stock.inventory</field>
+        <field name="arch" type="xml">
+            <form string="Stocks">
+                <header>
+                    <button name="action_start" states="draft" string="Start Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+                    <button name="action_open_inventory_lines" states="confirm" string="Continue Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+                    <button name="action_validate" string="Validate Inventory" type="object" attrs="{'invisible': ['|', ('state', '!=', 'confirm'), ('line_ids', '!=', [])]}" groups="stock.group_stock_manager"/>
+                    <button name="action_validate" string="Validate Inventory" type="object" attrs="{'invisible': ['|', ('state', '!=', 'confirm'), ('line_ids', '=', [])]}" class="oe_highlight" groups="stock.group_stock_manager"/>
+                    <button name="action_print" string="Print Count Sheet" type="object" attrs="{'invisible': [('state', '=', 'draft')]}" groups="stock.group_stock_user"/>
+                    <button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object"/>
+                    <button name="action_cancel_draft" states="confirm" string="Cancel Inventory" type="object" confirm="If you cancel this inventory adjustment, all its inventory adjustment lines will be lost. Are you sure you want to discard it ?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="line_ids" invisible="1"/>
+                        <field name="name" />
+                        <field name="product_ids" />
+                        <field name="state" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

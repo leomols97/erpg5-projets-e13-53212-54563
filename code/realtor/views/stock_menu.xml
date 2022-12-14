@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="stock_list_items">
+      <field name="name">Stocks</field>
+      <field name="res_model">stock.inventory</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- menus -->
+
+    <menuitem id="realtor.menu_root" name="Appartement">
+      <menuitem id="show_menu_parent" name="Afficher">
+        <!-- actions -->
+        <menuitem id="show_stocks" name="Les stocks" action="stock_list_items"/>
+      </menuitem>
+    </menuitem>
+  </data>
+</odoo>
