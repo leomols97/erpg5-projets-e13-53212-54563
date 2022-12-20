@@ -15,16 +15,14 @@ class Apartment(models.Model):
     terrace_area = fields.Integer(string='Surface de la terrasse', required=True, min=1)
     total_area = fields.Integer(string='Surface totale', compute='_compute_total_area')
     best_offer_price = fields.Integer(string='Meilleure offre')
-    disponibility = fields.Boolean(string='Disponible?', default=False)
+    disponible = fields.Boolean(string='Disponible?', default=False)
     date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
     date_disponibility = fields.Date(string='Date de disponibilité de l\'appartement', default=datetime.today() + relativedelta(months=3))
 
-    seller = fields.Many2one('res.users', string='Vendeur')
-    buyer = fields.Many2one('res.partner', string='Acheteur potentiel')
+    buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
-    # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
-    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
-    product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
+    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Produit associé à un appartement')
+    product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à un appartement', visible=False)
 
     @api.constrains('date_creation', 'date_disponibility')
     def _check_dates( self ):
@@ -82,7 +80,7 @@ class Apartment(models.Model):
     @api.constrains('date_creation', 'date_disponibility', 'disponible')
     def _check_disponibility(self):
         """ Checks if the date of disponibility of the apartment is not lower than 3 months after the date of creation of the offer """
-        if self.disponibility and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
+        if self.disponible and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
             raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
 
     @api.depends('product_ids')

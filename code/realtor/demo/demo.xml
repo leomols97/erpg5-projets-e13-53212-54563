@@ -1,83 +1,103 @@
 <odoo>
   <data>
-    <odoo>
-      <data>
-        <data noupdate="1">
-          <!--  Initials apartment  -->
-          <record model="realtor.apartment" id="smallApartment">
-            <field name="name">smallApartment</field>
-            <field name="description">it's a small apartment</field>
-            <field name="expected_price">200000</field>
-            <field name="apartment_area">70</field>
-            <field name="terrace_area">10</field>
-          </record>
-          <record model="realtor.apartment" id="mediumApartment">
-            <field name="name">mediumApartment</field>
-            <field name="description">it is a medium sized apartment</field>
-            <field name="expected_price">300000</field>
-            <field name="apartment_area">150</field>
-            <field name="terrace_area">20</field>
-          </record>
-          <record model="realtor.apartment" id="bigApartment">
-            <field name="name">bigApartment</field>
-            <field name="description">it's a big apartment</field>
-            <field name="expected_price">500000</field>
-            <field name="apartment_area">350</field>
-            <field name="terrace_area">40</field>
-          </record>
-          <!--  Initials partners(acheteur)  -->
-          <record model="res.partner" id="acheteur1">
-            <field name="name">acheteur1</field>
-          </record>
-          <record model="res.partner" id="acheteur2">
-            <field name="name">acheteur2</field>
-          </record>
-          <record model="res.partner" id="acheteur3">
-            <field name="name">acheteur3</field>
-          </record>
-          <!--  Initials users (vendeur)  -->
-          <record model="res.users" id="vendeur1">
-            <field name="name">vendeur1</field>
-            <field name="login">vendeur1</field>
-            <field name="password">vendeur1</field>
-          </record>
-          <record model="res.users" id="vendeur2">
-            <field name="name">vendeur2</field>
-            <field name="login">vendeur2</field>
-            <field name="password">vendeur2</field>
-          </record>
-          <record model="res.users" id="vendeur3">
-            <field name="name">vendeur3</field>
-            <field name="login">vendeur3</field>
-            <field name="password">vendeur3</field>
-          </record>
-
-          <!--          Q3.2-->
-          <record model="res.partner" id="immobilier_esi">
-            <field name="name">Immobilier ESI</field>
-          </record>
+    <data noupdate="1">
+      <!--  Initials apartment  -->
+      <record model="realtor.apartment" id="smallApartment">
+        <field name="name">smallApartment</field>
+        <field name="description">it's a small apartment</field>
+        <field name="expected_price">200000</field>
+        <field name="apartment_area">70</field>
+        <field name="terrace_area">10</field>
+      </record>
+      <record model="realtor.apartment" id="mediumApartment">
+        <field name="name">mediumApartment</field>
+        <field name="description">it is a medium sized apartment</field>
+        <field name="expected_price">300000</field>
+        <field name="apartment_area">150</field>
+        <field name="terrace_area">20</field>
+      </record>
+      <record model="realtor.apartment" id="bigApartment">
+        <field name="name">bigApartment</field>
+        <field name="description">it's a big apartment</field>
+        <field name="expected_price">500000</field>
+        <field name="apartment_area">350</field>
+        <field name="terrace_area">40</field>
+      </record>
+      <!--  Initials partners(acheteur)  -->
+      <record model="res.partner" id="acheteur1">
+        <field name="name">acheteur1</field>
+      </record>
+      <record model="res.partner" id="acheteur2">
+        <field name="name">acheteur2</field>
+      </record>
+      <record model="res.partner" id="acheteur3">
+        <field name="name">acheteur3</field>
+      </record>
+      <!--  Initials users (vendeur)  -->
+      <record model="res.users" id="vendeur1">
+        <field name="name">vendeur1</field>
+        <field name="login">vendeur1</field>
+        <field name="password">vendeur1</field>
+      </record>
+      <record model="res.users" id="vendeur2">
+        <field name="name">vendeur2</field>
+        <field name="login">vendeur2</field>
+        <field name="password">vendeur2</field>
+      </record>
+      <record model="res.users" id="vendeur3">
+        <field name="name">vendeur3</field>
+        <field name="login">vendeur3</field>
+        <field name="password">vendeur3</field>
+      </record>
 
 
-          <record id="product_template_01" model="product.template">
-            <field name="name">Apartment Liege 2 bedrooms</field>
-            <field name="categ_id" ref="product_category_1"/>
-            <field name="type">consu</field>
-            <field name="apartment_id" ref="realtor_apartment_01"></field>
-            <field name="standard_price">1000.0</field>
-            <field name="image_1920" type="base64" file="realtor/static/img/realtor_apartment_01.png"/>
-          </record>
+      <record model="res.partner" id="Esi">
+        <field name="name">Immobilier Esi</field>
+      </record>
 
-          <record id="realtor_line_01" model="stock.inventory.line">
-            <field name="product_id" ref="realtor.product_template_01"/>
-            <field name="product_uom_id" ref="uom.product_uom_unit"/>
-            <field name="inventory_id" ref="inventory_1"/>
-            <field name="product_qty">1.0</field>
-            <field name="location_id" model="stock.location"
-                   eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
-          </record>
 
-        </data>
-      </data>
-    </odoo>
+    
+      <record model="product.product" id="bigApartmentProduct">
+        <field
+          name="name">bigApartmentProduct</field>
+
+        <field name="quantity">1</field>
+
+            <field name="type">product</field>
+
+        <field name="apartment_id" ref ="bigApartment"/>
+      </record>
+    
+
+      <record id="stock_inventory_0" model="stock.inventory">
+        <field name="name">first stock</field>
+        
+      </record>
+
+       <record id="stock_inventory_line_1" model="stock.inventory.line">
+        <field name="product_id" ref="bigApartmentProduct"/>
+         
+
+           <field name="product_uom_id"
+      ref="uom.product_uom_unit"/>
+           <field name="inventory_id" ref="stock_inventory_0"/>
+
+      <field name="product_qty">16.0</field>
+           <field name="location_id"
+      model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/> 
+           </record> 
+           
+      <function model="stock.inventory" name="_action_start">
+        <function eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_0'))]]"
+          model="stock.inventory" name="search" />
+      </function>
+
+      <function model="stock.inventory" name="action_validate">
+        <function eval="[[('state','=','confirm'),('id', '=', ref('stock_inventory_0'))]]"
+          model="stock.inventory" name="search" />
+      </function>
+
+
+    </data>
   </data>
 </odoo>
