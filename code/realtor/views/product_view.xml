@@ -12,8 +12,9 @@
                         <field name="name" />
                         <field name="apartment_id" />
                         <field name="quantity" />  <!-- Vient de la consigne "Consultez le produit et notez la quantité disponible en stock" -->
-                        <field name="stock_id" />
+<!--                        <field name="stock_id" />-->
                         <field name="price" readonly="1"/>
+                        <field name="type" />
                     </group>
                 </sheet>
             </form>

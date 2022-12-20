@@ -7,11 +7,10 @@ class ProductTemplate(models.Model):
 
     quantity = fields.Integer("Quantité d'appartements") # Vient de la consigne "Consultez le produit et notez la quantité disponible en stock"
 
-    apartment_id = fields.Many2one('realtor.apartment', string='Appartement(s) associé(s) à un produit') #, compute='_compute_apartment_price') #, required=False)
-    stock_id = fields.Many2one('stock.inventory', string='Stock associé au produit')
+    apartment_id = fields.Many2one('realtor.apartment', string='Appartement(s) associé(s) à un produit', required=True) #, compute='_compute_apartment_price') #, required=False)
+    stock_id = fields.Many2one('stock.inventory', string='Stock associé au produit', required=True)
 
     @api.onchange('apartment_id')
-    @api.constrains('quantity')
     def _compute_apartment_price(self):
         self.price = self.apartment_id.expected_price
 

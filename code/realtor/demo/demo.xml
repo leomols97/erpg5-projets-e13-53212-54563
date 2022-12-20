@@ -52,10 +52,30 @@
             <field name="password">vendeur3</field>
           </record>
 
-<!--          Q3.2-->
+          <!--          Q3.2-->
           <record model="res.partner" id="immobilier_esi">
             <field name="name">Immobilier ESI</field>
           </record>
+
+
+          <record id="product_template_01" model="product.template">
+            <field name="name">Apartment Liege 2 bedrooms</field>
+            <field name="categ_id" ref="product_category_1"/>
+            <field name="type">consu</field>
+            <field name="apartment_id" ref="realtor_apartment_01"></field>
+            <field name="standard_price">1000.0</field>
+            <field name="image_1920" type="base64" file="realtor/static/img/realtor_apartment_01.png"/>
+          </record>
+
+          <record id="realtor_line_01" model="stock.inventory.line">
+            <field name="product_id" ref="realtor.product_template_01"/>
+            <field name="product_uom_id" ref="uom.product_uom_unit"/>
+            <field name="inventory_id" ref="inventory_1"/>
+            <field name="product_qty">1.0</field>
+            <field name="location_id" model="stock.location"
+                   eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
+          </record>
+
         </data>
       </data>
     </odoo>
