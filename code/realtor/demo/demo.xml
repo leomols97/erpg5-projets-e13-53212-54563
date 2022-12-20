@@ -51,6 +51,11 @@
             <field name="login">vendeur3</field>
             <field name="password">vendeur3</field>
           </record>
+
+<!--          Q3.2-->
+          <record model="res.partner" id="immobilier_esi">
+            <field name="name">Immobilier ESI</field>
+          </record>
         </data>
       </data>
     </odoo>
