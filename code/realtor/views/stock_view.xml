@@ -22,7 +22,6 @@
                         <field name="line_ids" invisible="1"/>
                         <field name="name" />
                         <field name="product_ids"/>
-                        
                         <field name="state" />
                     </group>
                 </sheet>

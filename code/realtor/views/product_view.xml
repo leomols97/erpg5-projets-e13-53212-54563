@@ -3,7 +3,7 @@
     <record model="ir.ui.view" id="realtor.product_view_type">
         <field name="name">product.template.product.form</field> <!-- Ceci est pour utiliser la vue proposée par Odoo -->
         <!-- "priority" se réfère à "sequence" dans la vue interface web d'Odoo. pour utiliser notre propre vue (qui est ce fichier), il suffit de diminuer ce nb de 1 -->
-        <field name="priority">7</field>
+        <!-- <field name="priority">7</field> 7 on utilise celle d'odoo si decremente j'utilise ma vue -->
         <field name="model">product.template</field>
         <field name="arch" type="xml">
             <form string="Produits">

@@ -24,3 +24,6 @@
 
 <!-- <field name="name">stock.inventory.line.tree</field>
         <field name="res_model">stock.inventory.line</field> -->
+
+        <!-- <field name="res_model">stock.inventory</field>
+      <field name="view_mode">tree,form</field> -->

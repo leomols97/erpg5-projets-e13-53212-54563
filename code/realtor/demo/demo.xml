@@ -60,7 +60,6 @@
       <record model="product.product" id="bigApartmentProduct">
         <field
           name="name">bigApartmentProduct</field>
-
         <field name="quantity">1</field>
 
             <field name="type">product</field>

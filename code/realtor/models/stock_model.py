@@ -6,4 +6,3 @@ class Stock(models.Model):
 
     product_ids = fields.One2many('product.template', 'stock_id', string='Plusieurs produits associés à un stock')
 
-    
