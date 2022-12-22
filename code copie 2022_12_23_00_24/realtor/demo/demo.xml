@@ -191,7 +191,7 @@
       </record>
 
       <record id="stock_inventory_11" model="stock.inventory">
-        <field name="name">Stock Appartement 1</field>
+        <field name="name">Stock Appartement Yassine</field>
         <!-- '6, 0 [IDs]' remplace la liste des ID liés pour chqque ID de la liste qui suit
           https://www.odoo.com/fr_FR/forum/aide-1/how-to-fill-many2many-or-many2one-fields-while-creating-a-record-in-another-model-128503 -->
         <field name="product_ids"
