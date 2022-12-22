@@ -10,9 +10,11 @@ class ProductTemplate(models.Model):
     apartment_id = fields.Many2one('realtor.apartment', string='Appartement(s) associé(s) à un produit', required=True) #, compute='_compute_apartment_price') #, required=False)
     stock_id = fields.Many2one('stock.inventory', string='Stock associé au produit', required=True)
 
+
+
     @api.onchange('apartment_id')
     def _compute_apartment_price(self):
-        self.price = self.apartment_id.expected_price
+        self.list_price = self.apartment_id.expected_price
 
     # @api.constrains('quantity', 'apartment_id')
     # def _compute_apartment_id(self):

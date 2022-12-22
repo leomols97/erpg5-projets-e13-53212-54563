@@ -16,6 +16,7 @@
                     <field name="terrace_area"/>
                     <field name="total_area"/>
                     <field name="buyer"/>
+                    <field name="best_offer_price"/>
                     <field name="disponibility"/>
                     <field name="date_creation"/>
                     <field name="date_disponibility"/>
@@ -67,7 +68,9 @@
                             <group name="group_right">
                                 <field name="image" widget="image"/>
                                 <field name="seller"/>
+                                <field name="best_offer_price"/>
                                 <field name="buyer"/>
+<!--                                <field name="best_buyer"/>-->
                                 <field name="disponibility"/>
                             </group>
                         </group>

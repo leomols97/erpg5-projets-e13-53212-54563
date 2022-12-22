@@ -14,8 +14,20 @@ common = xmlrpc.client.ServerProxy(
 uid = common.authenticate(db, username, password, {})
 
 # Référence à model.Models
-models = xmlrpc.client.ServerProxy(
-    '{}/xmlrpc/2/object'.format(url))
+models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+
+
+# def __init__(self):
+#
+#     # Paramètres de connexion
+#     url = "http://localhost:8069"
+#     db = "apa3"
+#     username = input("Saisissez login : ")
+#     password = input("Saisissez password : ")
+#     self.port = 8069
+#
+#     # Connexion de l’utilisateur
+#     uid = common.authenticate(db, username, password, {})
 
 def hasRightsToAccess(modelName) :
     """
@@ -94,3 +106,33 @@ if hasRightsToAccess("realtor.apartment") :
 if hasRightsToAccess("product.template") :
     functionsToCall = [showApartmentInfos, showProductInfos]
     askIndefinitely("Saisissez le nom du produit que vous souhaitez ou q si vous voulez continuer : ", functionsToCall)
+
+
+
+
+def createAppart(name, expected_price, apartment_area, terrace_area, total_area, best_offer_price):
+    models.execute_kw(db, uid, password, 'realtor.apartment', 'create', [{'name': name, 'description': 'description', 'expected_price': expected_price, 'apartment_area': apartment_area, 'terrace_area': terrace_area, 'total_area': total_area, 'best_offer_price': best_offer_price}])
+
+# name = input("name ? ")
+# expected_price = input("expected_price ? ")
+# apartment_area = input("apartment_area ? ")
+# terrace_area = input("terrace_area ? ")
+# total_area = input("total_area ? ")
+# best_offer_price = input("best_offer_price ? ")
+
+# createAppart(name, expected_price, apartment_area, terrace_area, total_area, best_offer_price)
+
+
+def makeOffer(new_offer_price, apartment_name, user_name):
+    actual_offer_price = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[['best_offer_price', '=', new_offer_price], ['name', '=', apartment_name]]])
+    idActualApart = actual_offer_price[0].get("id")
+    models.execute_kw(db, uid, password, 'res.partner', 'search_read', [[['name', '=', user_name]]])
+    if actual_offer_price[0]['best_offer_price'] < int(new_offer_price) :
+        models.execute_kw(db, uid, password, 'res.partner', 'create', [{'name': user_name, 'apartment': idActualApart, 'offer_price': new_offer_price}])
+        models.execute_kw(db, uid, password, 'realtor.apartment', 'write', [[idActualApart], {'best_offer_price': new_offer_price}])
+        print("L'offre a été prise en compte")
+
+new_offer_price = input("new_offer_price ? ")
+apartment_name = input("apartment_name ? ")
+user_name = input("user_name ? ")
+makeOffer(new_offer_price, apartment_name, user_name)
