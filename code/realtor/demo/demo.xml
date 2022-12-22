@@ -73,23 +73,6 @@
         <field name="name">acheteur3</field>
       </record>
 
-      <!--  Initialize users (vendeur)  -->
-<!--      <record model="res.users" id="vendeur1">-->
-<!--        <field name="name">vendeur1</field>-->
-<!--        <field name="login">vendeur1</field>-->
-<!--        <field name="password">vendeur1</field>-->
-<!--      </record>-->
-<!--      <record model="res.users" id="vendeur2">-->
-<!--        <field name="name">vendeur2</field>-->
-<!--        <field name="login">vendeur2</field>-->
-<!--        <field name="password">vendeur2</field>-->
-<!--      </record>-->
-<!--      <record model="res.users" id="vendeur3">-->
-<!--        <field name="name">vendeur3</field>-->
-<!--        <field name="login">vendeur3</field>-->
-<!--        <field name="password">vendeur3</field>-->
-<!--      </record>-->
-
       <!--  Initialize offers  -->
       <record model="res.partner" id="res_partner_offer_small_apartment">
         <field name="name">Acheteur Small Apartment</field>
@@ -184,27 +167,33 @@
       <record id="product_small_apartment" model="product.template">
         <field name="name">realtor_apartment_small_apartment_product_template</field>
         <field name="apartment_id" ref="realtor_apartment_small_apartment" />
+        <field name="quantity">5</field>
         <field name="type">product</field>
       </record>
       <record id="product_medium_apartment" model="product.template">
         <field name="name">realtor_apartment_medium_apartment_product_template</field>
         <field name="apartment_id" ref="realtor_apartment_medium_apartment" />
+        <field name="quantity">10</field>
         <field name="type">product</field>
       </record>
       <record id="product_big_apartment" model="product.template">
         <field name="name">realtor_apartment_big_apartment_product_template</field>
         <field name="apartment_id" ref="realtor_apartment_big_apartment" />
+        <field name="quantity">15</field>
         <field name="type">product</field>
       </record>
       <record id="product_empty_apartment" model="product.template">
         <field name="name">realtor_apartment_empty_apartment_product_template</field>
         <field name="apartment_id" ref="realtor_apartment_empty_apartment" />
+        <field name="qty_available">20</field>
+        <field name="list_price">700000</field>
         <field name="type">product</field>
       </record>
 
       <record id="stock_inventory_11" model="stock.inventory">
         <field name="name">Stock Appartement Yassine</field>
-        <!-- '6, 0' : pour les droits d'ajouts-->
+        <!-- '6, 0 [IDs]' remplace la liste des ID liés pour chqque ID de la liste qui suit
+          https://www.odoo.com/fr_FR/forum/aide-1/how-to-fill-many2many-or-many2one-fields-while-creating-a-record-in-another-model-128503 -->
         <field name="product_ids"
                eval="[(6, 0,
                [ref('product_small_apartment'),

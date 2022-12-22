@@ -14,8 +14,9 @@
                         <field name="quantity" />  <!-- Vient de la consigne "Consultez le produit et notez la quantité disponible en stock" -->
 <!--                        <field name="stock_id" />-->
                         <field name="list_price" />
-<!--                        <field name="standard_price" string="Meilleure offre" />-->
+                        <field name="standard_price" string="Meilleure offre" />
                         <field name="type" />
+                        <field name="qty_available" />
                     </group>
                 </sheet>
             </form>

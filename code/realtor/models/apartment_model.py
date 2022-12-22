@@ -6,25 +6,25 @@ from dateutil.relativedelta import relativedelta
 
 class Apartment(models.Model):
     _name = 'realtor.apartment'
-    _description = 'Modèle d\'un appartement'
-    name = fields.Char(string='Nom de l\'appartement', required=True, unique=True)
-    description = fields.Char(string='Description de l\'apartment')
+    _description = "Modèle d'un appartement"
+    name = fields.Char(string="Nom de l'appartement", required=True)
+    description = fields.Char(string="Description de l'apartment")
     image = fields.Binary(string='Image')
-    expected_price = fields.Integer(string='Prix attendu', required=True, min=1)
-    apartment_area = fields.Integer(string='Surface de l\'appartement', required=True, min=1)
-    terrace_area = fields.Integer(string='Surface de la terrasse', required=True, min=1)
-    total_area = fields.Integer(string='Surface totale', compute='_compute_total_area')
-    best_offer_price = fields.Integer(string='Meilleure offre', compute='_compute_min_price')
-    disponibility = fields.Boolean(string='Disponible?', default=False)
-    date_creation = fields.Date(string='Date de création de l\'appartement', default=datetime.today(), readonly=True)
-    date_disponibility = fields.Date(string='Date de disponibilité de l\'appartement', default=datetime.today() + relativedelta(months=3))
+    expected_price = fields.Integer(string="Prix attendu", required=True)
+    apartment_area = fields.Integer(string="Surface de l'appartement", required=True)
+    terrace_area = fields.Integer(string="Surface de la terrasse", required=True)
+    total_area = fields.Integer(string="Surface totale", compute='_compute_total_area')
+    best_offer_price = fields.Integer(string="Meilleure offre", compute='_compute_min_price')
+    disponibility = fields.Boolean(string="Disponible ?", default=False)
+    date_creation = fields.Date(string="Date de création de l'appartement", default=datetime.today(), readonly=True)
+    date_disponibility = fields.Date(string="Date de disponibilité de l'appartement", default=datetime.today() + relativedelta(months=3))
 
-    seller = fields.Many2one('res.users', string='Vendeur')
-    buyer = fields.Char(string='Acheteur potentiel')
+    seller = fields.Many2one('res.users', string="Vendeur")
+    buyer = fields.Char(string="Acheteur potentiel")
     # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
-    # product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
-    # product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
+    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
+    product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
 
     @api.constrains('date_creation', 'date_disponibility')
     def _check_dates(self):
@@ -93,7 +93,7 @@ class Apartment(models.Model):
     #                 record.buyer = best_offer_price.buyer
     #                 record.best_offer_price = best_offer_price.price
 
-    @api.constrains('date_creation', 'date_disponibility', 'disponible')
+    @api.constrains('date_creation', 'date_disponibility', 'disponibility')
     def _check_disponibility(self):
         """ Checks if the date of disponibility of the apartment is not lower than 3 months after the date of creation of the offer """
         if self.disponibility and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
