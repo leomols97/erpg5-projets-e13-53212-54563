@@ -8,5 +8,5 @@ class Offer(models.Model):
     description = fields.Char('Description de l\'offre', required=True)
     price = fields.Integer('Montant de l\'offre', required=True, min=1)
     apartment = fields.Many2one('realtor.apartment', string='Appartement')
-    # seller = fields.Many2one('res.users', string='Vendeur')
-    # buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
+    seller = fields.Many2one('res.users', string='Vendeur')
+    buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')

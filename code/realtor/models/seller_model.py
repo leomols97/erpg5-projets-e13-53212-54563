@@ -7,4 +7,4 @@ class Seller(models.Model):
     # _name = 'realtor.seller'
     _description = 'Vendeur d\'un appartement'
     # name = fields.Char('Vendeur de l\'appartement', required=True, unique=True)
-    apartment = fields.Many2one('realtor.apartment', string='Meilleur acheteur')
+    offer = fields.Many2one('realtor.offer', string='Meilleur acheteur')
