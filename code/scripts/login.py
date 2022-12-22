@@ -2,7 +2,7 @@ import xmlrpc.client
 
 # Paramètres de connexion
 url = "http://localhost:8069"
-db = "apa3"
+db = "apa12"
 username = input("Saisissez login : ")
 password = input("Saisissez password : ")
 
