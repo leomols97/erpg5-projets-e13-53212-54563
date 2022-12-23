@@ -3,22 +3,6 @@ from getpass import getpass
 
 class OdooParser:
     def __init__(self):
-        # # Paramètres de connexion
-        # self.url = "http://localhost:8069"
-        # self.db = "apa3"
-        # self.username = input("Saisissez login : ")
-        # self.password = input("Saisissez password : ")
-        #
-        # # Récupération de la version d’ODOO installée
-        # self.common = xmlrpc.client.ServerProxy(
-        #     '{}/xmlrpc/2/common'.format(self.url))
-        #
-        # # Connexion de l’utilisateur
-        # self.uid = self.common.authenticate(self.db, self.username, self.password, {})
-        #
-        # # Référence à model.Models
-        # self.models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(self.url))
-
         # Les informations de connexion sont celles qui permmettent d'accéder à l'interface web d'Odoo
         self.port = 8069
         self.url = "http://localhost:8069"
@@ -30,18 +14,27 @@ class OdooParser:
         self.models = xmlrpc.client.ServerProxy(f'{self.url}/xmlrpc/2/object')
 
     def ask_user_name(self):
+        """
+        Demande le nom d'utilisateur à l'utilisateur
+        """
         while not self.username:
             name = input("Saisissez votre login : ")
             self.username = name
             print() # saut de ligne
 
     def ask_password(self):
+        """
+        Demande le mot de passe à l'utilisateur
+        """
         while not self.password:
             passwd = getpass("Password: ")
             self.password = passwd
             print() # saut de ligne
 
     def _validate_uid(self):
+        """
+        Vérifie si l'utilisateur est connecté
+        """
         if self.username and self.password:
             self.uid = self.common.authenticate(
                 self.db, self.username, self.password, {}
@@ -52,6 +45,9 @@ class OdooParser:
             raise ValueError("Le login et le mot de passe ne peuvent pas être vides !")
 
     def _check_access_rights(self):
+        """
+        Vérifie les droits d'accès de l'utilisateur
+        """
         if self.models.execute_kw(
                 self.db,
                 self.uid,
@@ -80,7 +76,12 @@ class OdooParser:
                     functionToCall(userEntry)
 
     def _access_apartment_infos(self, apartment_name):
-        out = self.models.execute_kw(
+        """
+        Affiche les informations d'un appartement
+
+        :param product_name: nom du product
+        """
+        infos = self.models.execute_kw(
             self.db,
             self.uid,
             self.password,
@@ -101,52 +102,20 @@ class OdooParser:
                 ]
             },
         )
-        if out:
-            print("Voici les informations de l'appartement demandé :")
-            for apart in out:
-                for i, j in apart.items():
+        if infos:
+            print("\nVoici les informations de l'appartement demandé :\n")
+            for info in infos:
+                for i, j in info.items():
                     print(f"{i:20} ==> {j}")
-            print('\n')
+            print()
         else:
             print("Aucun appartement ne porte ce nom !\n")
-
 
     def _access_product_infos(self, product_name):
-        out = self.models.execute_kw(
-            self.db,
-            self.uid,
-            self.password,
-            'realtor.apartment',
-            'search_read',
-            [[['name', '=', product_name]]],
-            {
-                'fields': [
-                    'name',
-                    'date_creation',
-                    'date_disponibility',
-                    'expected_price',
-                    'apartment_area',
-                    'terrace_area',
-                    'total_area',
-                    'buyer',
-                    'disponibility',
-                ]
-            },
-        )
-        if out:
-            print("Voici les informations de l'appartement demandé :")
-            for apart in out:
-                for i, j in apart.items():
-                    print(f"{i:20} ==> {j}")
-            print('\n')
-        else:
-            print("Aucun appartement ne porte ce nom !\n")
-
-    def _access_product_infos(self, productName):
         """
-        Affiche les informations d'un product
+        Affiche la quantité d'un product
 
-        :param productName: nom du product
+        :param product_name: nom du product
         """
         apartments = self.models.execute_kw(self.db, self.uid, self.password, 'realtor.apartment', 'search_read', [[]])
         products = self.models.execute_kw(self.db, self.uid, self.password, 'product.template', 'search_read', [[]])
@@ -154,10 +123,56 @@ class OdooParser:
             for product in products:
                 if (product.get("apartment_id") != False
                         and apartment.get("name") == product.get("apartment_id")[1]
-                        and product.get("apartment_id")[1] == productName):
+                        and product.get("apartment_id")[1] == product_name):
                     print(" − Quantité disponible :", product.get("quantity"))
 
-        # La gestion de l'erreur d'un appartement inexistant est gérée dans la fonction showApartmentInfos
+    # La gestion de l'erreur d'un appartement inexistant est gérée dans la fonction showApartmentInfos
+
+    def _inputs_to_make_offer(self, apartment_name):
+        """
+        Affiche les informations d'un appartement et demande à l'utilisateur s'il veut faire une offre
+
+        :param apartment_name: nom de l'appartement
+        """
+        self._access_apartment_infos(apartment_name)
+        # self._access_product_infos(apartment_name)
+        userEntry = input("Voulez-vous faire une offre pour cet appartement ? (y/n) ")
+        userEntry.lower()
+        if userEntry == "y":
+            # apartment_name = input("Entrez le nom de l'appartement pour lequel vous voulez faire l'offre : ")
+            new_offer_price = input("Entrez le prix de votre offre : ")
+            user_name = input("Entrez votre nom : ")
+            op._make_offer(new_offer_price, apartment_name, user_name)
+        elif userEntry == "n":
+            print("Vous n'avez pas fait d'offre.\n")
+        else:
+            print("Vous n'avez pas fait d'offre.\n")
+
+    def _make_offer(self, new_offer_price, apartment_name, user_name):
+        """
+        Gère une offre faite pour un appartement
+
+        :param new_offer_price: le prix de la nouvelle offre
+        :param apartment_name: le nom de l'appartement pour lequel l'offre est faite
+        :param user_name: le nom de l'utilisateur qui fait l'offre
+        :return:
+        """
+        # Gets the actual offer price through 'search_read'
+        actual_offer_price = self.models.execute_kw(self.db, self.uid, self.password, 'realtor.apartment', 'search_read', [
+            [['best_offer_price', '=', new_offer_price], ['name', '=', apartment_name]]])
+        # Gets the apartment id of the actual offer
+        idActualApart = actual_offer_price[0].get("id")
+        # Gets the connected user id
+        self.models.execute_kw(self.db, self.uid, self.password, 'res.partner', 'search_read', [[['name', '=', user_name]]])
+        # If the new offer price is higher than the actual offer price, the new offer price is set as the best offer price
+        if actual_offer_price[0]['best_offer_price'] < int(new_offer_price):
+            # Creates a res.partner record with the user_name, whether it exists or not
+            self.models.execute_kw(self.db, self.uid, self.password, 'res.partner', 'create',
+                                   [{'name': user_name, 'apartment': idActualApart, 'offer_price': new_offer_price}])
+            # Updates the best offer price of the apartment
+            self.models.execute_kw(self.db, self.uid, self.password, 'realtor.apartment', 'write',
+                                   [[idActualApart], {'best_offer_price': new_offer_price}])
+            print("L'offre a été prise en compte")
 
 
 def main():
@@ -177,9 +192,9 @@ def main():
         functions_to_call = [op._access_apartment_infos, op._access_product_infos]
         op._ask_indefinitely(message_to_display, functions_to_call)
 
-        # while True:
-        #     name = input("Entrez le nom de l'appartement dont vous cherchez les informations ou 'q' pour quitter cet écran : ")
-        #     op._access_apartment_infos(name)
+        message_to_display = "Entrez le nom de l'appartement pour lequel vous voulez faire une offre ou q pour quitter cet écran : "
+        functions_to_call = [op._inputs_to_make_offer]
+        op._ask_indefinitely(message_to_display, functions_to_call)
 
     except KeyboardInterrupt:
         print("\n\n Au revoir !\n")
@@ -190,11 +205,16 @@ def main():
 if __name__ == '__main__':
     main()
 
+
+
+
+
+
 # # Paramètres de connexion
 # url = "http://localhost:8069"
 # db = "apa3"
-# username = input("Saisissez login : ")
-# password = input("Saisissez password : ")
+# username = "53212@etu.he2b.be"
+# password = "admin"
 #
 # # Récupération de la version d’ODOO installée
 # common = xmlrpc.client.ServerProxy(
@@ -206,19 +226,19 @@ if __name__ == '__main__':
 # # Référence à model.Models
 # models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
 #
-#
-# # def __init__(self):
 # #
-# #     # Paramètres de connexion
-# #     url = "http://localhost:8069"
-# #     db = "apa3"
-# #     username = input("Saisissez login : ")
-# #     password = input("Saisissez password : ")
-# #     self.port = 8069
+# # # def __init__(self):
+# # #
+# # #     # Paramètres de connexion
+# # #     url = "http://localhost:8069"
+# # #     db = "apa3"
+# # #     username = input("Saisissez login : ")
+# # #     password = input("Saisissez password : ")
+# # #     self.port = 8069
+# # #
+# # #     # Connexion de l’utilisateur
+# # #     uid = common.authenticate(db, username, password, {})
 # #
-# #     # Connexion de l’utilisateur
-# #     uid = common.authenticate(db, username, password, {})
-#
 # def hasRightsToAccess(modelName) :
 #     """
 #     Vérifie si l'utilisateur a les droits d'accès à un modèle
@@ -268,6 +288,8 @@ if __name__ == '__main__':
 #             i = i + 1 # Compteur pour savoir si l'appartement existe ou non
 #         if i == len(apartments):
 #             print("L'appartement n'existe pas")
+#     if i == 0:
+#         print("Il n'y a aucun appartement")
 #
 # def showProductInfos(productName) :
 #     """
@@ -296,6 +318,7 @@ if __name__ == '__main__':
 # if hasRightsToAccess("product.template") :
 #     functionsToCall = [showApartmentInfos, showProductInfos]
 #     askIndefinitely("Saisissez le nom du produit que vous souhaitez ou q si vous voulez continuer : ", functionsToCall)
+
 #
 #
 #
@@ -314,16 +337,29 @@ if __name__ == '__main__':
 #
 #
 
+# #
+# #
+# #
+# #
+# # 
 # def makeOffer(new_offer_price, apartment_name, user_name):
+#     # Gets the actual offer price through 'search_read'
 #     actual_offer_price = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[['best_offer_price', '=', new_offer_price], ['name', '=', apartment_name]]])
+#     print(actual_offer_price)
+#     # Gets the apartment id of the actual offer
 #     idActualApart = actual_offer_price[0].get("id")
+#     # Gets the user id of the actual offer through 'search_read'
 #     models.execute_kw(db, uid, password, 'res.partner', 'search_read', [[['name', '=', user_name]]])
+#     # If the new offer price is higher than the actual offer price, the new offer price is set as the best offer price
 #     if actual_offer_price[0]['best_offer_price'] < int(new_offer_price) :
+#         # Creates a res.partner record with the user name, whether it exists or not
 #         models.execute_kw(db, uid, password, 'res.partner', 'create', [{'name': user_name, 'apartment': idActualApart, 'offer_price': new_offer_price}])
+#         # Updates the best offer price of the apartment
 #         models.execute_kw(db, uid, password, 'realtor.apartment', 'write', [[idActualApart], {'best_offer_price': new_offer_price}])
 #         print("L'offre a été prise en compte")
 #
-# new_offer_price = input("new_offer_price ? ")
-# apartment_name = input("apartment_name ? ")
-# user_name = input("user_name ? ")
-# makeOffer(new_offer_price, apartment_name, user_name)
+# # apartment_name = input("apartment_name ? ")
+# # new_offer_price = input("new_offer_price ? ")
+# # user_name = input("user_name ? ")
+# if hasRightsToAccess("realtor.apartment") :
+#     makeOffer(400000, "Medium Apartment", "53212@etu.he2b.be")
