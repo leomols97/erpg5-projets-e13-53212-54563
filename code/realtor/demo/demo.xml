@@ -125,7 +125,7 @@
       <!--            <field name="type">product</field>-->
       <!--            <field name="apartment_id" ref="realtor_apartment_01"></field>-->
       <!--            <field name="price">1000.0</field>-->
-      <!--&lt;!&ndash;            <field name="image_1920" type="base64" file="realtor/static/img/realtor_apartment_01.png"/>&ndash;&gt;-->
+      <!--&lt;!&ndash;            <field name="image_1920" type="base64" file="realtor/static/image/realtor_apartment_01.png"/>&ndash;&gt;-->
       <!--          </record>-->
 
       <!--          <record id="stock_inventory_01" model="stock.inventory">-->
@@ -218,13 +218,29 @@
         <field name="apartment_id" ref="realtor_apartment_test_apartment"/>
         <field name="type">product</field>
         <field name="list_price">700000</field>
-<!--        <field name="context">{'default_field5_name': context.get('param1', False),'default_field6_name': context.get('param2', False),}</field>-->
+        <field name="context">{'default_field5_name': context.get('param1', False),'default_field6_name': context.get('param2', False),}</field>
         <field name="standard_price">650000</field>
       </record>
       <!-- Add apart in inventory -->
 <!--      <record id="stock_inventory_apart1" model="stock.inventory.line">-->
 <!--        <field name="product_id" ref="product_test_apartment"/>-->
 <!--        <field name="inventory_id" ref="stock_inventory"/>-->
+<!--        <field name="product_qty">7.0</field>-->
+<!--        <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--      </record>-->
+
+<!--      <record id="stock_inventory_0" model="stock.inventory">-->
+<!--            <field name="name">Apartment Inventory</field>-->
+<!--        </record>-->
+<!--      <record id="realtor_template_1" model="product.template">-->
+<!--        <field name="name">ApartLot5</field>-->
+<!--        <field name="apartment_id" ref="realtor_apartment_test_apartment"/>-->
+<!--        <field name="type">product</field>-->
+<!--      </record>-->
+      <!-- Add apart in inventory -->
+<!--      <record id="stock_inventory_apart1" model="stock.inventory.line">-->
+<!--        <field name="product_id" ref="realtor_template_1"/>-->
+<!--        <field name="inventory_id" ref="stock_inventory_0"/>-->
 <!--        <field name="product_qty">7.0</field>-->
 <!--        <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
 <!--      </record>-->

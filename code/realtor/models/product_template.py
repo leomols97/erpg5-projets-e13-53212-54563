@@ -11,26 +11,27 @@ class ProductTemplate(models.Model):
                                    required=True) #, compute='_compute_apartment_price')
     stock_id = fields.Many2one('stock.inventory', string='Stock associé au produit', required=True)
 
+    @api.constrains('quantity')
+    def _compute_product_quantity_error(self):
+        """ Checks if the quantity is not lower than 0 or 0"""
+        if self.quantity < 1:
+            raise ValidationError(
+                "La quantité du produit doit être supérieure à 0. A quoi bon créer un produit si il n'y a pas d'appartement ?")
+
+    @api.constrains('apartment_id')
+    def _compute_apartment_price_error(self):
+        """ Checks if the price of the product is not different than the expected price of the apartment """
+        if self.list_price != self.apartment_id.expected_price:
+            raise ValidationError(
+                "Le prix du produit doit être égal au prix attendu de l'appartement. Resélectionnez l'appartement pour avoir le bon prix.")
 
     @api.onchange('apartment_id')
     def _compute_apartment_price(self):
+        """ Sets the price of the product to the expected price of the apartment """
         self.list_price = self.apartment_id.expected_price
-
-    # @api.constrains('apartment_id')
-    # def _compute_apartment_price_error(self):
-    #     if self.list_price != self.apartment_id.expected_price:
-    #         raise ValidationError("Le prix du produit doit être égal au prix attendu de l'appartement. Resélectionnez l'appartement pour avoir le bon prix.")
 
     @api.onchange('quantity')
     def _compute_product_quantity(self):
+        """ Should set the qty_available to the quantity of the product """
         self.qty_available = self.quantity
-
-    # @api.constrains('quantity')
-    # def _compute_product_quantity_error(self):
-    #     if self.quantity < 1:
-    #         raise ValidationError("La quantité du produit doit être supérieure à 0. A quoi bon créer un produit si il n'y a pas d'appartement ?")
-
-    # @api.constrains('quantity', 'apartment_id')
-    # def _compute_apartment_id(self):
-    #     for record in self :
-    #         if(s)
+        self.outgoing_qty = self.quantity
