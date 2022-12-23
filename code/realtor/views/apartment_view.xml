@@ -16,6 +16,7 @@
                     <field name="terrace_area"/>
                     <field name="total_area"/>
                     <field name="buyer"/>
+                    <field name="supplier"/>
                     <field name="best_offer_price"/>
                     <field name="disponibility"/>
                     <field name="date_creation"/>
@@ -67,16 +68,16 @@
                             </group>
                             <group name="group_right">
                                 <field name="image" widget="image"/>
-                                <field name="seller"/>
+                                <field name="supplier"/>
                                 <field name="best_offer_price"/>
                                 <field name="buyer"/>
-<!--                                <field name="best_buyer"/>-->
+                                <!--                                <field name="best_buyer"/>-->
                                 <field name="disponibility"/>
                             </group>
                         </group>
-<!--                        <group name="group_bottom">-->
-<!--                            <field name="product_ids"/>-->
-<!--                        </group>-->
+                        <!--                        <group name="group_bottom">-->
+                        <!--                            <field name="product_ids"/>-->
+                        <!--                        </group>-->
                     </sheet>
                 </form>
             </field>

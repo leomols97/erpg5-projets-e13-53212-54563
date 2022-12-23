@@ -2,6 +2,28 @@
   <data>
     <data noupdate="1">
 
+      <!--  Initialize partners (acheteur)  -->
+      <record model="res.partner" id="acheteur1">
+        <field name="name">acheteur1</field>
+      </record>
+      <record model="res.partner" id="acheteur2">
+        <field name="name">acheteur2</field>
+      </record>
+      <record model="res.partner" id="acheteur3">
+        <field name="name">acheteur3</field>
+      </record>
+
+      <!-- Q3.2-->
+      <!--  Fournisseur d'appartements  -->
+      <record model="res.partner" id="immobilier_esi">
+        <field name="name">Immobilier ESI</field>
+      </record>
+
+      <!--  Initializes a stock  -->
+      <record id="stock_inventory" model="stock.inventory">
+        <field name="name">Stock d'appartements</field>
+      </record>
+
       <!--  Initialize potential buyers  -->
       <record model="res.partner" id="res_partner_jean_brasse">
         <field name="name">Jean Brasse</field>
@@ -27,6 +49,7 @@
         <field name="date_creation">2022-12-01</field>
         <field name="date_disponibility">2023-03-01</field>
         <field name="disponibility" eval="False"/>
+        <field name="supplier" ref="immobilier_esi"/>
       </record>
       <record model="realtor.apartment" id="realtor_apartment_medium_apartment">
         <field name="name">Medium Apartment</field>
@@ -38,6 +61,7 @@
         <field name="date_creation">2022-12-01</field>
         <field name="date_disponibility">2023-03-01</field>
         <field name="disponibility" eval="False"/>
+        <field name="supplier" ref="immobilier_esi"/>
       </record>
       <record model="realtor.apartment" id="realtor_apartment_big_apartment">
         <field name="name">Big Apartment</field>
@@ -49,6 +73,7 @@
         <field name="date_creation">2022-12-01</field>
         <field name="date_disponibility">2023-03-01</field>
         <field name="disponibility" eval="False"/>
+        <field name="supplier" ref="immobilier_esi"/>
       </record>
       <record model="realtor.apartment" id="realtor_apartment_empty_apartment">
         <field name="name">Empty Apartment</field>
@@ -60,17 +85,7 @@
         <field name="date_creation">2022-09-01</field>
         <field name="date_disponibility">2022-12-01</field>
         <field name="disponibility" eval="True"/>
-      </record>
-
-      <!--  Initialize partners (acheteur)  -->
-      <record model="res.partner" id="acheteur1">
-        <field name="name">acheteur1</field>
-      </record>
-      <record model="res.partner" id="acheteur2">
-        <field name="name">acheteur2</field>
-      </record>
-      <record model="res.partner" id="acheteur3">
-        <field name="name">acheteur3</field>
+        <field name="supplier" ref="immobilier_esi"/>
       </record>
 
       <!--  Initialize offers  -->
@@ -93,11 +108,6 @@
         <field name="name">Acheteur Empty Apartment</field>
         <field name="offer_price">320000</field>
         <field name="apartment" ref="realtor_apartment_empty_apartment" />
-      </record>
-
-      <!--          Q3.2-->
-      <record model="res.partner" id="immobilier_esi">
-        <field name="name">Immobilier ESI</field>
       </record>
 
       <!--Code Léo-->
@@ -165,32 +175,62 @@
 
       <!--  Initialize products  -->
       <record id="product_small_apartment" model="product.template">
-        <field name="name">realtor_apartment_small_apartment_product_template</field>
+        <field name="name">Product Apartment Small</field>
         <field name="apartment_id" ref="realtor_apartment_small_apartment" />
-        <field name="quantity">5</field>
+        <field name="qty_available">5</field>
         <field name="type">product</field>
       </record>
       <record id="product_medium_apartment" model="product.template">
-        <field name="name">realtor_apartment_medium_apartment_product_template</field>
+        <field name="name">Product Apartment Medium</field>
         <field name="apartment_id" ref="realtor_apartment_medium_apartment" />
-        <field name="quantity">10</field>
+        <field name="qty_available">10</field>
         <field name="type">product</field>
       </record>
       <record id="product_big_apartment" model="product.template">
-        <field name="name">realtor_apartment_big_apartment_product_template</field>
+        <field name="name">Product Apartment Big</field>
         <field name="apartment_id" ref="realtor_apartment_big_apartment" />
-        <field name="quantity">15</field>
+        <field name="qty_available">15</field>
         <field name="type">product</field>
       </record>
       <record id="product_empty_apartment" model="product.template">
-        <field name="name">realtor_apartment_empty_apartment_product_template</field>
+        <field name="name">Product Apartment Empty</field>
         <field name="apartment_id" ref="realtor_apartment_empty_apartment" />
-        <field name="qty_available">20</field>
         <field name="list_price">700000</field>
+        <field name="standard_price">650000</field>
         <field name="type">product</field>
       </record>
 
-      <record id="stock_inventory_11" model="stock.inventory">
+
+      <record model="realtor.apartment" id="realtor_apartment_test_apartment">
+        <field name="name">Test Apartment</field>
+        <field name="description">This is a test apartment</field>
+        <field name="expected_price">350000</field>
+        <field name="apartment_area">100</field>
+        <field name="terrace_area">20</field>
+        <field name="image" type="base64" file="realtor/static/images/apartment_empty.jpeg"/>
+        <field name="date_creation">2022-12-01</field>
+        <field name="date_disponibility">2023-04-01</field>
+        <field name="disponibility" eval="False"/>
+        <field name="supplier" ref="immobilier_esi"/>
+      </record>
+      <record id="product_test_apartment" model="product.template">
+        <field name="name">Product Test Apartment</field>
+        <field name="apartment_id" ref="realtor_apartment_test_apartment"/>
+        <field name="type">product</field>
+        <field name="list_price">700000</field>
+<!--        <field name="context">{'default_field5_name': context.get('param1', False),'default_field6_name': context.get('param2', False),}</field>-->
+        <field name="standard_price">650000</field>
+      </record>
+      <!-- Add apart in inventory -->
+<!--      <record id="stock_inventory_apart1" model="stock.inventory.line">-->
+<!--        <field name="product_id" ref="product_test_apartment"/>-->
+<!--        <field name="inventory_id" ref="stock_inventory"/>-->
+<!--        <field name="product_qty">7.0</field>-->
+<!--        <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--      </record>-->
+
+      <!--  Initialize stocks  -->
+      <record id="stock_inventory_1" model="stock.inventory">
         <field name="name">Stock Appartement 1</field>
         <!-- '6, 0 [IDs]' remplace la liste des ID liés pour chqque ID de la liste qui suit
           https://www.odoo.com/fr_FR/forum/aide-1/how-to-fill-many2many-or-many2one-fields-while-creating-a-record-in-another-model-128503 -->
@@ -201,6 +241,20 @@
                 ref('product_big_apartment'),
                 ref('product_empty_apartment'),])]"/>
       </record>
+
+      <function model="stock.inventory" name="_action_start">
+        <function eval="[[('state','=','draft'),('id', '=', ref('stock_inventory'))]]" model="stock.inventory" name="search"/>
+      </function>
+      <function model="stock.inventory" name="action_validate">
+        <function eval="[[('state','=','confirm'),('id', '=', ref('stock_inventory'))]]" model="stock.inventory" name="search"/>
+      </function>
+
+      <function model="stock.inventory" name="_action_start">
+        <function eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_1'))]]" model="stock.inventory" name="search"/>
+      </function>
+      <function model="stock.inventory" name="action_validate">
+        <function eval="[[('state','=','confirm'),('id', '=', ref('stock_inventory_1'))]]" model="stock.inventory" name="search"/>
+      </function>
 
     </data>
   </data>
