@@ -10,26 +10,35 @@ from .models import connexionInformation
 
 
 def index(request):
-  print(request)
+  """
+ajout d'un formulaire et passage de celuici au gabarit
 
-  form = odooForm()  # ajout d’un nouveau formulaire ici
+:param request;
+"""  
+  form = odooForm() 
   return render(request,
           'connexionOdoo/index.html',
-          {'form': form})  # passe ce formulaire au gabarit
+          {'form': form}) 
 
 
 
 
 def verif(request):
+    """
+vérifie les accès de l'utilisateur,
+s'il existe on redirige vers l'url des appartements,
+sinon vers celui de la connexion
+
+:param request
+"""
     form = odooForm(request.POST) 
-    username =""
-    password =""
+    
     if form.is_valid():
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']        
     # Paramètres de connexion
     url = "http://localhost:8069"
-    db = "apa12"
+    db = "apa3"
 
     # Récupération de la version d’ODOO installée
     common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
@@ -41,37 +50,17 @@ def verif(request):
     models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
     hasRight = False
     try:
-        
-        # print(username)
-        # print(password)
-        # print(url)
-        # print(db)
-        print('exec_kw')  
-        print(hasRight)  
-        hasRight = models.execute_kw(db, uid, password, 'realtor.apartment', 'check_access_rights', ['read'], {'raise_exception': False})
-        print(hasRight)
-            
+        hasRight = models.execute_kw(db, uid, password, 'realtor.apartment', 'check_access_rights', ['read'], {'raise_exception': False})            
     except:
         hasRight = False
-        print("Vous n'avez pas accès au modèle ", models)
-        
-    print(hasRight)
-
     if(hasRight):
-        # connexionInformation.objects.create( 
-        #     username=form.cleaned_data['username'],
-        #     password=form.cleaned_data['password'] 
-        #     ) 
-        print('verif')
         request.session['username'] = username
         request.session['password'] = password
-        request.session['db'] = db
         request.session['uid'] = uid
 
         return redirect('/apartmentPurchase/')
     else:
         print('refresh')
         return redirect('/connexionOdoo/')
-        #return index(request)
 
 
