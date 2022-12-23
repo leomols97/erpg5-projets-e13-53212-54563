@@ -12,10 +12,38 @@
     
 
     {% for apart in apartments %}
+<<<<<<< HEAD
         
         <h3>{{ apart.name }}</h3>
         <h3>{{ apart.description }}</h3>
         
+=======
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+      
+        <h3>{{ apart.name }}</h3>
+        <h3>{{ apart.description }}</h3>
+        <h3>{{ apart.image }}</h3>
+        <h3>{{ apart.expected_price }}</h3>
+        <h3>{{ apart.apartment_area }}</h3>
+        <h3>{{ apart.terrace_area }}</h3>
+        <h3>{{ apart.total_area }}</h3>
+        <h3>{{ apart.best_offer_price }}</h3>
+        <h3>{{ apart.disponibility }}</h3>
+        <h3>{{ apart.date_creation }}</h3>
+        <h3>{{ apart.date_disponibility }}</h3>
+        <h3>{{ apart.seller }}</h3>
+        <h3>{{ apart.buyer }}</h3>
+        <h3>{{ apart.product_id }}</h3>
+        <h3>{{ apart.product_ids }}</h3>
+        <h3>{{ apart.date_creation }}</h3>
+        <!-- <input type="number" id="number" name="number">
+        <input type="submit" value="Submit"> -->
+    </form>
+        <!-- if offerNotValid
+        <span>Offre refusé</span> -->
+>>>>>>> 12f31fc051138b515dd3136868024433627fe662
     {% endfor %}
 </body>
 </html>

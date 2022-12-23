@@ -11,6 +11,15 @@ import xmlrpc.client
 
 #     return 
 
+<<<<<<< HEAD
+=======
+# def possible(request):
+
+
+
+
+
+>>>>>>> 12f31fc051138b515dd3136868024433627fe662
 def index(request):
   print('ICI')
   username = request.session['username']
