@@ -1,7 +1,6 @@
 import xmlrpc.client
 from getpass import getpass
 
-<<<<<<< HEAD
 class OdooParser:
     def __init__(self):
         # # Paramètres de connexion
@@ -19,13 +18,6 @@ class OdooParser:
         #
         # # Référence à model.Models
         # self.models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(self.url))
-=======
-# Paramètres de connexion
-url = "http://localhost:8069"
-db = "apa12"
-username = input("Saisissez login : ")
-password = input("Saisissez password : ")
->>>>>>> django
 
         # Les informations de connexion sont celles qui permmettent d'accéder à l'interface web d'Odoo
         self.port = 8069
@@ -49,7 +41,6 @@ password = input("Saisissez password : ")
             self.password = passwd
             print() # saut de ligne
 
-<<<<<<< HEAD
     def _validate_uid(self):
         if self.username and self.password:
             self.uid = self.common.authenticate(
@@ -335,39 +326,3 @@ if __name__ == '__main__':
 # apartment_name = input("apartment_name ? ")
 # user_name = input("user_name ? ")
 # makeOffer(new_offer_price, apartment_name, user_name)
-=======
-# Vérification des droits d’accès
-try:
-    hasRight = models.execute_kw(db, uid, password,
-                                 'realtor.apartment', 'check_access_rights',
-                                 ['read'], {'raise_exception': False})
-
-    apartment = models.execute_kw(db, uid, password,
-                                  'realtor.apartment', 'search_read', [[]])
-
-    nomAppart = input("Saisissez le nom de l'appartement que vous souhaitez ou q si vous voulez quitter : ")
-
-    continuer = True;
-    while (continuer):
-        i = 0
-        for nom in apartment:
-
-            if (nom.get("name") == nomAppart):
-                print(" − name : ", nom.get("name"))
-                print(" − description : ", nom.get("description"))
-                print(" − expected_price : ", nom.get("expected_price"))
-                print(" − apartment_area : ", nom.get("apartment_area"))
-                print(" − terrace_area : ", nom.get("terrace_area"))
-            else:
-                i = i + 1
-            if (i == len(apartment)):
-                print("L'appartement n'existe pas")
-
-        name = input("Saisissez le nom de l'appartement que vous souhaitez ou q si vous voulez quitter : ")
-        if (name == "q"):
-            continuer = False
-        else:
-            nomAppart = name
-except:
-    print("vous n'avez pas accès au modèle 'Apartment'")
->>>>>>> django
