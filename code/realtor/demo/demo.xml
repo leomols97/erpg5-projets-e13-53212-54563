@@ -109,7 +109,7 @@
       <record id="product_small_apartment" model="product.template">
         <field name="name">Product Apartment Small</field>
         <field name="apartment_id" ref="realtor_apartment_small_apartment" />
-<!--        <field name="qty_available">5</field>-->
+        <field name="qty_available">5</field>
         <field name="list_price">200000</field>
         <field name="standard_price">180000</field>
         <field name="type">product</field>
@@ -140,30 +140,30 @@
       </record>
 
        <!-- Add apart in inventory -->
-        <record id="stock_inventory_apart1" model="stock.inventory.line">
-            <field name="product_id" ref="product_small_apartment"/>
-            <field name="inventory_id" ref="stock_inventory"/>
-            <field name="product_qty">7.0</field>
-            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
-        </record>
-        <record id="stock_inventory_apart2" model="stock.inventory.line">
-            <field name="product_id" ref="product_medium_apartment"/>
-            <field name="inventory_id" ref="stock_inventory"/>
-            <field name="product_qty">8.0</field>
-            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
-        </record>
-        <record id="stock_inventory_apart3" model="stock.inventory.line">
-            <field name="product_id" ref="product_big_apartment"/>
-            <field name="inventory_id" ref="stock_inventory"/>
-            <field name="product_qty">11.0</field>
-            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
-        </record>
-        <record id="stock_inventory_apart4" model="stock.inventory.line">
-            <field name="product_id" ref="product_empty_apartment"/>
-            <field name="inventory_id" ref="stock_inventory"/>
-            <field name="product_qty">10.0</field>
-            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
-        </record>
+<!--        <record id="stock_inventory_apart1" model="stock.inventory.line">-->
+<!--            <field name="product_id" ref="product_small_apartment"/>-->
+<!--            <field name="inventory_id" ref="stock_inventory"/>-->
+<!--            <field name="product_qty">7.0</field>-->
+<!--            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--        </record>-->
+<!--        <record id="stock_inventory_apart2" model="stock.inventory.line">-->
+<!--            <field name="product_id" ref="product_medium_apartment"/>-->
+<!--            <field name="inventory_id" ref="stock_inventory"/>-->
+<!--            <field name="product_qty">8.0</field>-->
+<!--            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--        </record>-->
+<!--        <record id="stock_inventory_apart3" model="stock.inventory.line">-->
+<!--            <field name="product_id" ref="product_big_apartment"/>-->
+<!--            <field name="inventory_id" ref="stock_inventory"/>-->
+<!--            <field name="product_qty">11.0</field>-->
+<!--            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--        </record>-->
+<!--        <record id="stock_inventory_apart4" model="stock.inventory.line">-->
+<!--            <field name="product_id" ref="product_empty_apartment"/>-->
+<!--            <field name="inventory_id" ref="stock_inventory"/>-->
+<!--            <field name="product_qty">10.0</field>-->
+<!--            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--        </record>-->
 
 
 <!--      <record model="realtor.apartment" id="realtor_apartment_test_apartment">-->
