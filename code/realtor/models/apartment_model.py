@@ -23,7 +23,7 @@ class Apartment(models.Model):
     buyer = fields.Char(string="Acheteur potentiel")
     # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
-    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
+    product_id = fields.Many2one('product.template', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
     product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
 
     @api.constrains('date_creation', 'date_disponibility')

@@ -12,28 +12,28 @@
     
 
     {% for apart in apartments %}
-    <form action="" method="POST">
+    <form action="{% url 'verif' %}" method="POST">
         {% csrf_token %}
         
-      
-        <h3>{{ apart.name }}</h3>
-        <h3>{{ apart.description }}</h3>
-        <h3>{{ apart.image }}</h3>
-        <h3>{{ apart.expected_price }}</h3>
-        <h3>{{ apart.apartment_area }}</h3>
-        <h3>{{ apart.terrace_area }}</h3>
-        <h3>{{ apart.total_area }}</h3>
-        <h3>{{ apart.best_offer_price }}</h3>
-        <h3>{{ apart.disponibility }}</h3>
-        <h3>{{ apart.date_creation }}</h3>
-        <h3>{{ apart.date_disponibility }}</h3>
-        <h3>{{ apart.seller }}</h3>
-        <h3>{{ apart.buyer }}</h3>
-        <h3>{{ apart.product_id }}</h3>
-        <h3>{{ apart.product_ids }}</h3>
-        <h3>{{ apart.date_creation }}</h3>
-        <!-- <input type="number" id="number" name="number">
-        <input type="submit" value="Submit"> -->
+  
+
+        <h5 name =" appartements">{{ apart.name }}</h5>
+        <h5>{{ apart.description }}</h5>
+        <img  src= "data:image/jpeg;base64,{{ apart.image }}">
+        <h5>{{ apart.expected_price }}</h5>
+        <h5>{{ apart.apartment_area }}</h5>
+        <h5>{{ apart.terrace_area }}</h5>
+        <h5>{{ apart.total_area }}</h5>
+        <h5>{{ apart.best_offer_price }}</h5>
+        <h5>{{ apart.disponibility }}</h5>
+        <h5>{{ apart.date_creation }}</h5>
+        <h5>{{ apart.date_disponibility }}</h5>
+        <h5>{{ apart.seller }}</h5>
+        <h5>{{ apart.buyer }}</h5>
+        <h5>{{ apart.product_id }}</h5>
+        <h5>{{ apart.product_ids }}</h5>
+        <input type="number" id="{{ apart.name }}" name="{{ apart.name }}">
+        <input type="submit" value="Submit">
     </form>
         <!-- if offerNotValid
         <span>Offre refusé</span> -->

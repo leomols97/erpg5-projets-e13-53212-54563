@@ -20,7 +20,8 @@ def index(request):
 
 
 
-def verif(request):
+def verification(request):
+    print('la')
     form = odooForm(request.POST) 
     username =""
     password =""
@@ -46,7 +47,6 @@ def verif(request):
         # print(password)
         # print(url)
         # print(db)
-        print('exec_kw')  
         print(hasRight)  
         hasRight = models.execute_kw(db, uid, password, 'realtor.apartment', 'check_access_rights', ['read'], {'raise_exception': False})
         print(hasRight)

@@ -18,9 +18,9 @@
         <input type="submit" value="Submit">
         <input type="reset">
     </form>  -->
-    <form action="{% url 'verif' %}" method="post" novalidate>
+    <form action="{% url 'verification' %}" method="post" novalidate>
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" value="Envoyer">
     </form>
 
