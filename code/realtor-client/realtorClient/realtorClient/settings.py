@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'connexionOdoo.apps.ConnexionodooConfig',
     'apartmentPurchase.apps.ApartmentpurchaseConfig',
+    
 ]
 
 MIDDLEWARE = [

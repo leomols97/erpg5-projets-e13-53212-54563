@@ -313,16 +313,17 @@ if __name__ == '__main__':
 # # createAppart(name, expected_price, apartment_area, terrace_area, total_area, best_offer_price)
 #
 #
-def makeOffer(new_offer_price, apartment_name, user_name):
-    actual_offer_price = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[['best_offer_price', '=', new_offer_price], ['name', '=', apartment_name]]])
-    idActualApart = actual_offer_price[0].get("id")
-    models.execute_kw(db, uid, password, 'res.partner', 'search_read', [[['name', '=', user_name]]])
-    if actual_offer_price[0]['best_offer_price'] < int(new_offer_price) :
-        models.execute_kw(db, uid, password, 'res.partner', 'create', [{'name': user_name, 'apartment': idActualApart, 'offer_price': new_offer_price}])
-        models.execute_kw(db, uid, password, 'realtor.apartment', 'write', [[idActualApart], {'best_offer_price': new_offer_price}])
-        print("L'offre a été prise en compte")
 
-new_offer_price = input("new_offer_price ? ")
-apartment_name = input("apartment_name ? ")
-user_name = input("user_name ? ")
-makeOffer(new_offer_price, apartment_name, user_name)
+# def makeOffer(new_offer_price, apartment_name, user_name):
+#     actual_offer_price = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[['best_offer_price', '=', new_offer_price], ['name', '=', apartment_name]]])
+#     idActualApart = actual_offer_price[0].get("id")
+#     models.execute_kw(db, uid, password, 'res.partner', 'search_read', [[['name', '=', user_name]]])
+#     if actual_offer_price[0]['best_offer_price'] < int(new_offer_price) :
+#         models.execute_kw(db, uid, password, 'res.partner', 'create', [{'name': user_name, 'apartment': idActualApart, 'offer_price': new_offer_price}])
+#         models.execute_kw(db, uid, password, 'realtor.apartment', 'write', [[idActualApart], {'best_offer_price': new_offer_price}])
+#         print("L'offre a été prise en compte")
+#
+# new_offer_price = input("new_offer_price ? ")
+# apartment_name = input("apartment_name ? ")
+# user_name = input("user_name ? ")
+# makeOffer(new_offer_price, apartment_name, user_name)

@@ -19,11 +19,11 @@ class Apartment(models.Model):
     date_creation = fields.Date(string="Date de création de l'appartement", default=datetime.today(), readonly=True)
     date_disponibility = fields.Date(string="Date de disponibilité de l'appartement", default=datetime.today() + relativedelta(months=3))
 
-    seller = fields.Many2one('res.users', string="Vendeur")
+    supplier = fields.Char(string="Fournisseur", readonly=True, default="Immobilier ESI")
     buyer = fields.Char(string="Acheteur potentiel")
     # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
-    product_id = fields.Many2one('product.template', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
+    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
     product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
 
     @api.constrains('date_creation', 'date_disponibility')
@@ -35,7 +35,7 @@ class Apartment(models.Model):
     @api.constrains('expected_price')
     def _check_expected_price(self):
         """ Checks if the expected price is not lower than 0 """
-        if self.expected_price <= 0:
+        if self.expected_price < 1:
             raise ValidationError('Entrez une valeur plus grande que 0 pour le prix attendu')
 
     @api.constrains('apartment_area')
@@ -93,26 +93,26 @@ class Apartment(models.Model):
     #                 record.buyer = best_offer_price.buyer
     #                 record.best_offer_price = best_offer_price.price
 
-    @api.constrains('date_creation', 'date_disponibility', 'disponibility')
+    @api.constrains('disponibility')
     def _check_disponibility(self):
         """ Checks if the date of disponibility of the apartment is not lower than 3 months after the date of creation of the offer """
-        if self.disponibility and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
+        if self.disponibility and datetime.today().date() < self.date_disponibility:
             raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
 
-    # @api.depends('product_ids')
-    # def compute_for_only_one_apartment(self):
-    #     """ From the apartment, makes the program save only one product at a time """
-    #     if len(self.product_ids) > 0:
-    #         self.product_id = self.product_ids[0]
-    #
-    # def asset_inverse_for_one_product(self):
-    #     """ From the product, makes the program save only one apartment at a time """
-    #     if len(self.product_ids) > 0:
-    #         # delete previous reference
-    #         asset = self.env['product.template'].browse(self.product_ids[0].id)
-    #         asset.apartment_id = False
-    #     # set new reference
-    #     self.product_id.apartment_id = self
+    @api.depends('product_ids')
+    def compute_for_only_one_apartment(self):
+        """ From the apartment, makes the program save only one product at a time """
+        if len(self.product_ids) > 0:
+            self.product_id = self.product_ids[0]
+
+    def asset_inverse_for_one_product(self):
+        """ From the product, makes the program save only one apartment at a time """
+        if len(self.product_ids) > 0:
+            # delete previous reference
+            asset = self.env['product.template'].browse(self.product_ids[0].id)
+            asset.apartment_id = False
+        # set new reference
+        self.product_id.apartment_id = self
 
 
     # def write(self):

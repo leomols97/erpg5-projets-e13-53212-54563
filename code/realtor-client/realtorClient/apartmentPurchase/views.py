@@ -2,41 +2,15 @@ import xmlrpc.client
 from django.shortcuts import render, redirect
 
 
-
-# # Create your views here.
-# def faireineoffr(request)
-
-#     appaeszr = request.POST['appart']
-#     if off < best
-#         offerNotValid = true
-
-#     return 
-
-
-def showProductInfos(apartmentName,models,db,uid,password) :
-    """
-    Affiche les informations d'un product
-
-    :param productName: nom du product
-    """
-
-    a = {}
-    apartments = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[]])
-    products = models.execute_kw(db, uid, password, 'product.template', 'search_read', [[]])
-    for apartment in apartments:
-        for product in products:
-            if (product.get("apartment_id") != False
-                    and apartment.get("name") == product.get("apartment_id")[1]
-                    and product.get("apartment_id")[1] == apartmentName):
-                print(" − Quantité disponible :", product.get("quantity"))
-                a[apartment.get("name")] = product.get("quantity")
-
- 
 def index(request):
-  username = request.session['username']
+  """
+Affiche la liste des appartements avec leurs détails
+
+:param request
+"""
   password = request.session['password']
   url = "http://localhost:8069"
-  db = "apa12"
+  db = "apa3"
   uid = request.session['uid']
 
   
@@ -44,25 +18,33 @@ def index(request):
   models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
   apartments = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[]])
 
-
+  #création d'un dictionnaire
   a = {}
   apartments = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[]])
   products = models.execute_kw(db, uid, password, 'product.template', 'search_read', [[]])
   for apartment in apartments:
         for product in products:
-            
+            if (product.get("apartment_id") != False
+                    and apartment.get("name") == product.get("apartment_id")[1]):
                 a[apartment.get("name")] = product.get("quantity")
+                print(a[apartment.get("name")])          
 
-
+  request.session['a'] = a
   return render(request, 'apartmentPurchase/index.html', {'apartments': apartments})
 
 
 
 def makeOffer(request, new_offer_price, apartment_name, user_name):
+    """
+    Gère une offre faite pour un appartement
 
+    :param new_offer_price: le prix de la nouvelle offre
+    :param apartment_name: le nom de l'appartement pour lequel l'offre est faite
+    :param user_name: le nom de l'utilisateur qui fait l'offre
+    """
     password = request.session['password']
     url = "http://localhost:8069"
-    db = "apa12"
+    db = "apa3"
     uid = request.session['uid']
 
     models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
@@ -85,16 +67,20 @@ def makeOffer(request, new_offer_price, apartment_name, user_name):
 
 
 
-def verif(request):
-  username = request.session['username']
+def verification(request):
+  """
+vérifie la valeur de retour du post et gère en fonction l'offre pour
+l'appartement donné
+
+:param request:
+"""
   password = request.session['password']
   url = "http://localhost:8069"
-  db = "apa12"
+  db = "apa3"
   uid = request.session['uid']
   models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
   apartments = models.execute_kw(db, uid, password, 'realtor.apartment', 'search_read', [[]])
-  
- 
+  acheteur = request.POST.get('acheteur')
 
   offer = None
   
@@ -102,10 +88,8 @@ def verif(request):
       offer = request.POST.get(apartment.get("name"))
       
       offer = offer or "1"
-      # print(offer)
       if(offer!= "1"):
-        print(apartment.get("name"))
-        makeOffer(request, offer, apartment.get("name"), username)
-        
+        makeOffer(request, offer, apartment.get("name"), acheteur)
+
 
   return redirect('/apartmentPurchase/')
