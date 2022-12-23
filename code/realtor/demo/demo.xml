@@ -19,11 +19,6 @@
         <field name="name">Immobilier ESI</field>
       </record>
 
-      <!--  Initializes a stock  -->
-      <record id="stock_inventory" model="stock.inventory">
-        <field name="name">Stock d'appartements</field>
-      </record>
-
       <!--  Initialize potential buyers  -->
       <record model="res.partner" id="res_partner_jean_brasse">
         <field name="name">Jean Brasse</field>
@@ -110,142 +105,92 @@
         <field name="apartment" ref="realtor_apartment_empty_apartment" />
       </record>
 
-      <!--Code Léo-->
-      <!--          <record model="realtor.apartment" id="realtor_apartment_01">-->
-      <!--            <field name="name">realtor_apartment_01</field>-->
-      <!--            <field name="description">it's an apartment for a productt</field>-->
-      <!--            <field name="expected_price">200000</field>-->
-      <!--            <field name="apartment_area">70</field>-->
-      <!--            <field name="terrace_area">100</field>-->
-      <!--          </record>-->
-
-      <!--          <record id="product_template_01" model="product.template">-->
-      <!--            <field name="name">Apartment Product</field>-->
-      <!--&lt;!&ndash;            <field name="categ_id" ref="product_category_1"/>&ndash;&gt;-->
-      <!--            <field name="type">product</field>-->
-      <!--            <field name="apartment_id" ref="realtor_apartment_01"></field>-->
-      <!--            <field name="price">1000.0</field>-->
-      <!--&lt;!&ndash;            <field name="image_1920" type="base64" file="realtor/static/image/realtor_apartment_01.png"/>&ndash;&gt;-->
-      <!--          </record>-->
-
-      <!--          <record id="stock_inventory_01" model="stock.inventory">-->
-      <!--            <field name="name">Test Inventory DemoXML</field>-->
-      <!--          </record>-->
-
-      <!--          <record id="realtor_line_01" model="stock.inventory.line">-->
-      <!--            <field name="product_id" ref="product_template_01"/>-->
-      <!--            <field name="product_uom_id" ref="uom.product_uom_unit"/>-->
-      <!--            <field name="inventory_id" ref="stock_inventory_01"/>-->
-      <!--            <field name="quantity">1.0</field>-->
-      <!--&lt;!&ndash;            <field name="location_id" model="stock.location"&ndash;&gt;-->
-      <!--&lt;!&ndash;                   eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>&ndash;&gt;-->
-      <!--          </record>-->
-
-
-
-      <!--Code Ibrahim-->
-      <!--          <record model="product.product" id="realtor_apartment_big_apartmentProduct">-->
-      <!--            <field name="name">realtor_apartment_big_apartmentProduct</field>-->
-      <!--            <field name="quantity">1</field>-->
-      <!--            <field name="type">product</field>-->
-      <!--            <field name="apartment_id" ref="realtor_apartment_big_apartment"/>-->
-      <!--          </record>-->
-
-      <!--          <record id="stock_inventory_0" model="stock.inventory">-->
-      <!--            <field name="name">First stock</field>-->
-      <!--            <field name="state">draft</field>-->
-      <!--          </record>-->
-
-      <!--          <record id="stock_inventory_line_1" model="stock.inventory.line">-->
-      <!--            <field name="product_id" ref="realtor_apartment_big_apartmentProduct"/>-->
-      <!--            <field name="product_uom_id" ref="uom.product_uom_unit"/>-->
-      <!--            <field name="inventory_id" ref="stock_inventory_0"/>-->
-      <!--            <field name="product_qty">16.0</field>-->
-      <!--            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
-      <!--          </record>-->
-
-      <!--          <function model="stock.inventory" name="_action_start">-->
-      <!--            <function eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_0'))]]" model="stock.inventory" name="search" />-->
-      <!--          </function>-->
-
-      <!--          <function model="stock.inventory" name="action_validate">-->
-      <!--            <function eval="[[('state','=','confirm'),('id', '=', ref('stock_inventory_0'))]]"-->
-      <!--                      model="stock.inventory" name="search" />-->
-      <!--          </function>-->
-
       <!--  Initialize products  -->
       <record id="product_small_apartment" model="product.template">
         <field name="name">Product Apartment Small</field>
         <field name="apartment_id" ref="realtor_apartment_small_apartment" />
-        <field name="qty_available">5</field>
+<!--        <field name="qty_available">5</field>-->
+        <field name="list_price">200000</field>
+        <field name="standard_price">180000</field>
         <field name="type">product</field>
       </record>
       <record id="product_medium_apartment" model="product.template">
         <field name="name">Product Apartment Medium</field>
         <field name="apartment_id" ref="realtor_apartment_medium_apartment" />
         <field name="qty_available">10</field>
+        <field name="list_price">300000</field>
+        <field name="standard_price">270000</field>
         <field name="type">product</field>
       </record>
       <record id="product_big_apartment" model="product.template">
         <field name="name">Product Apartment Big</field>
         <field name="apartment_id" ref="realtor_apartment_big_apartment" />
         <field name="qty_available">15</field>
+        <field name="list_price">500000</field>
+        <field name="standard_price">540000</field>
         <field name="type">product</field>
       </record>
       <record id="product_empty_apartment" model="product.template">
         <field name="name">Product Apartment Empty</field>
         <field name="apartment_id" ref="realtor_apartment_empty_apartment" />
-        <field name="list_price">700000</field>
-        <field name="standard_price">650000</field>
+        <field name="qty_available">20</field>
+        <field name="list_price">350000</field>
+        <field name="standard_price">320000</field>
         <field name="type">product</field>
       </record>
 
+       <!-- Add apart in inventory -->
+        <record id="stock_inventory_apart1" model="stock.inventory.line">
+            <field name="product_id" ref="product_small_apartment"/>
+            <field name="inventory_id" ref="stock_inventory"/>
+            <field name="product_qty">7.0</field>
+            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
+        </record>
+        <record id="stock_inventory_apart2" model="stock.inventory.line">
+            <field name="product_id" ref="product_medium_apartment"/>
+            <field name="inventory_id" ref="stock_inventory"/>
+            <field name="product_qty">8.0</field>
+            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
+        </record>
+        <record id="stock_inventory_apart3" model="stock.inventory.line">
+            <field name="product_id" ref="product_big_apartment"/>
+            <field name="inventory_id" ref="stock_inventory"/>
+            <field name="product_qty">11.0</field>
+            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
+        </record>
+        <record id="stock_inventory_apart4" model="stock.inventory.line">
+            <field name="product_id" ref="product_empty_apartment"/>
+            <field name="inventory_id" ref="stock_inventory"/>
+            <field name="product_qty">10.0</field>
+            <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>
+        </record>
 
-      <record model="realtor.apartment" id="realtor_apartment_test_apartment">
-        <field name="name">Test Apartment</field>
-        <field name="description">This is a test apartment</field>
-        <field name="expected_price">350000</field>
-        <field name="apartment_area">100</field>
-        <field name="terrace_area">20</field>
-        <field name="image" type="base64" file="realtor/static/images/apartment_empty.jpeg"/>
-        <field name="date_creation">2022-12-01</field>
-        <field name="date_disponibility">2023-04-01</field>
-        <field name="disponibility" eval="False"/>
-        <field name="supplier" ref="immobilier_esi"/>
-      </record>
-      <record id="product_test_apartment" model="product.template">
-        <field name="name">Product Test Apartment</field>
-        <field name="apartment_id" ref="realtor_apartment_test_apartment"/>
-        <field name="type">product</field>
-        <field name="list_price">700000</field>
-        <field name="context">{'default_field5_name': context.get('param1', False),'default_field6_name': context.get('param2', False),}</field>
-        <field name="standard_price">650000</field>
-      </record>
-      <!-- Add apart in inventory -->
-<!--      <record id="stock_inventory_apart1" model="stock.inventory.line">-->
-<!--        <field name="product_id" ref="product_test_apartment"/>-->
-<!--        <field name="inventory_id" ref="stock_inventory"/>-->
-<!--        <field name="product_qty">7.0</field>-->
-<!--        <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+
+<!--      <record model="realtor.apartment" id="realtor_apartment_test_apartment">-->
+<!--        <field name="name">Test Apartment</field>-->
+<!--        <field name="description">This is a test apartment</field>-->
+<!--        <field name="expected_price">350000</field>-->
+<!--        <field name="apartment_area">100</field>-->
+<!--        <field name="terrace_area">20</field>-->
+<!--        <field name="image" type="base64" file="realtor/static/images/apartment_empty.jpeg"/>-->
+<!--        <field name="date_creation">2022-12-01</field>-->
+<!--        <field name="date_disponibility">2023-04-01</field>-->
+<!--        <field name="disponibility" eval="False"/>-->
+<!--        <field name="supplier" ref="immobilier_esi"/>-->
 <!--      </record>-->
-
-<!--      <record id="stock_inventory_0" model="stock.inventory">-->
-<!--            <field name="name">Apartment Inventory</field>-->
-<!--        </record>-->
-<!--      <record id="realtor_template_1" model="product.template">-->
-<!--        <field name="name">ApartLot5</field>-->
+<!--      <record id="product_test_apartment" model="product.template">-->
+<!--        <field name="name">Product Test Apartment</field>-->
 <!--        <field name="apartment_id" ref="realtor_apartment_test_apartment"/>-->
 <!--        <field name="type">product</field>-->
-<!--      </record>-->
-      <!-- Add apart in inventory -->
-<!--      <record id="stock_inventory_apart1" model="stock.inventory.line">-->
-<!--        <field name="product_id" ref="realtor_template_1"/>-->
-<!--        <field name="inventory_id" ref="stock_inventory_0"/>-->
-<!--        <field name="product_qty">7.0</field>-->
-<!--        <field name="location_id" model="stock.location" eval="obj().env.ref('stock.warehouse0').lot_stock_id.id"/>-->
+<!--        <field name="list_price">700000</field>-->
+<!--        <field name="standard_price">650000</field>-->
 <!--      </record>-->
 
-      <!--  Initialize stocks  -->
+
+      <!--  Initializes stock  -->
+      <record id="stock_inventory" model="stock.inventory">
+        <field name="name">Stock d'appartements</field>
+      </record>
       <record id="stock_inventory_1" model="stock.inventory">
         <field name="name">Stock Appartement 1</field>
         <!-- '6, 0 [IDs]' remplace la liste des ID liés pour chqque ID de la liste qui suit

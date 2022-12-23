@@ -33,9 +33,10 @@
         'views/product_view.xml',
         'views/stock_menu.xml',
         # 'views/stock_view.xml',
+        'demo/demo.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        # 'demo/demo.xml',
     ],
 }

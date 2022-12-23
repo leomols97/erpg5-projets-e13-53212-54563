@@ -13,11 +13,11 @@
                         <field name="apartment_id" />
                         <field name="quantity" />  <!-- Vient de la consigne "Consultez le produit et notez la quantité disponible en stock" -->
 <!--                        <field name="stock_id" />-->
-                        <field name="list_price" />
+                        <field name="list_price" string="Prix espéré" />
                         <field name="standard_price" string="Meilleure offre" />
                         <field name="type" />
                         <field name="qty_available" />
-                        <field name="outgoing_qty" />
+                        <field name="virtual_available" />
                     </group>
                 </sheet>
             </form>

@@ -18,20 +18,20 @@ class ProductTemplate(models.Model):
             raise ValidationError(
                 "La quantité du produit doit être supérieure à 0. A quoi bon créer un produit si il n'y a pas d'appartement ?")
 
-    @api.constrains('apartment_id')
-    def _compute_apartment_price_error(self):
-        """ Checks if the price of the product is not different than the expected price of the apartment """
-        if self.list_price != self.apartment_id.expected_price:
-            raise ValidationError(
-                "Le prix du produit doit être égal au prix attendu de l'appartement. Resélectionnez l'appartement pour avoir le bon prix.")
+    # @api.constrains('apartment_id')
+    # def _compute_apartment_price_error(self):
+    #     """ Checks if the price of the product is not different than the expected price of the apartment """
+    #     if self.list_price != self.apartment_id.expected_price:
+    #         raise ValidationError(
+    #             "Le prix du produit doit être égal au prix attendu de l'appartement. Resélectionnez l'appartement pour avoir le bon prix.")
 
-    @api.onchange('apartment_id')
+    @api.onchange('apartment_id', 'expected_price', 'name')
     def _compute_apartment_price(self):
-        """ Sets the price of the product to the expected price of the apartment """
-        self.list_price = self.apartment_id.expected_price
-
-    @api.onchange('quantity')
-    def _compute_product_quantity(self):
-        """ Should set the qty_available to the quantity of the product """
-        self.qty_available = self.quantity
-        self.outgoing_qty = self.quantity
+        """ Sets the price, the quantity and the name of the product to the expected price, quantity and name of the apartment.
+        Also sets the type of the product to 'product' for it to be a storable product"""
+        self.price = self.apartment_id.expected_price
+        self.standard_price = self.apartment_id.best_offer_price
+        self.virtual_available = self.quantity
+        self.list_price = self.appartement_id.expected_price
+        self.name = self.appartement_id.name
+        self.type = 'product'

@@ -21,7 +21,6 @@ class Apartment(models.Model):
 
     supplier = fields.Char(string="Fournisseur", readonly=True, default="Immobilier ESI")
     buyer = fields.Char(string="Acheteur potentiel")
-    # best_buyer = fields.Many2one('res.partner', string='Acheteurs potentiels')
     # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
     product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
     product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
@@ -81,9 +80,6 @@ class Apartment(models.Model):
             record.buyer = best_buyer
             record.best_offer_price = buyer_offer
 
-            # if record.best_offer_price < record.expected_price * 0.9:
-            #     raise ValidationError('La meilleure offre ne peut être inférieure à 90% du prix attendu')
-
     # @api.depends('best_offer_price')
     # def _compute_best_offer_price(self):
     #     """ Looks for the best offer price for an apartment """
@@ -129,8 +125,19 @@ class Apartment(models.Model):
     #             'La surface totale de l\'appartement doit valloir la somme de la surface de la terrasse et de celle de l\'appartement')
     #     for record in self:
     #         record.total_area = record.terrace_area + record.apartment_area
-    #     if self.best_offer_price < (self.expected_price * 0.9):
-    #         raise ValidationError('L\'offre doit être de minimum 90% du prix attendu')
-    #     if self.disponibility and self.date_disponibility < (self.date_creation + relativedelta(months=3)) :
-    #         raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
+    #     for record in self:
+    #         record.best_offer_price = 0
+    #         record.buyer = None
+    #         offer_price_min = record.expected_price * 0.9
+    #         potential_buyers = self.env['res.partner'].search([('apartment', 'in', record.name)])
+    #         best_buyer = None
+    #         buyer_offer = 0
+    #         for buyer in potential_buyers:
+    #             if buyer.offer_price > buyer_offer and buyer.offer_price >= offer_price_min:
+    #                 buyer_offer = buyer.offer_price
+    #                 best_buyer = buyer.name
+    #         record.buyer = best_buyer
+    #         record.best_offer_price = buyer_offer
+    #     if self.disponibility and datetime.today().date() < self.date_disponibility:
+    #         raise ValidationError("La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
     #     super().write()
