@@ -1,3 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import apartment_model, buyer_model, product_template, stock_model
+from . import apartment_model
+from . import buyer_model
+from . import product_template
+from . import stock_model
