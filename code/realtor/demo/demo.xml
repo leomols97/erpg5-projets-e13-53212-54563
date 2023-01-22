@@ -113,6 +113,7 @@
                 <field name="list_price">200000</field>
                 <field name="standard_price">180000</field>
                 <field name="type">product</field>
+                <field name="quantity">10</field>
             </record>
             <record id="product_medium_apartment" model="product.product">
                 <field name="name">Product Apartment Medium</field>
@@ -120,6 +121,7 @@
                 <field name="list_price">300000</field>
                 <field name="standard_price">270000</field>
                 <field name="type">product</field>
+                <field name="quantity">15</field>
             </record>
             <record id="product_big_apartment" model="product.product">
                 <field name="name">Product Apartment Big</field>
@@ -127,6 +129,7 @@
                 <field name="list_price">500000</field>
                 <field name="standard_price">540000</field>
                 <field name="type">product</field>
+                <field name="quantity">20</field>
             </record>
             <record id="product_empty_apartment" model="product.product">
                 <field name="name">Product Apartment Empty</field>
@@ -134,6 +137,7 @@
                 <field name="list_price">350000</field>
                 <field name="standard_price">320000</field>
                 <field name="type">product</field>
+                <field name="quantity">25</field>
             </record>
 
 

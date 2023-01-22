@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="realtor.stock_view_type" model="ir.ui.view">
-        <field name="name">stock.inventory.form</field> <!-- Ceci est pour utiliser la vue proposée par Odoo -->
-        <!-- "priority" se réfère à "sequence" dans la vue interface web d'Odoo. pour utiliser notre propre vue (qui est ce fichier), il suffit de diminuer ce nb de 1 -->
-        <field name="priority">15</field>
+        <field name="name">stock.inventory.form</field>
+        <!-- "priority" se réfère à "sequence" dans la vue interface web d'Odoo. pour utiliser notre propre vue (qui est ce fichier), il suffit de diminuer ce nb (16) de 1 -->
+        <field name="priority">16</field>
         <field name="model">stock.inventory</field>
         <field name="arch" type="xml">
             <form string="Stocks">

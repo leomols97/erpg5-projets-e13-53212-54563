@@ -1,7 +1,7 @@
 <odoo>
     <data>
 
-        <!-- actions opening the view -->
+        <!-- actions opening the view for the list -->
 
         <record model="ir.ui.view" id="apartment_tree_view">
             <field name="name">realtor.apartment.tree</field>
@@ -48,7 +48,7 @@
         <!--        </field>-->
         <!--    </record>-->
 
-        <!-- This is not really a form. It just shows the different apartment that a Team is responsible for.-->
+        <!-- This is not really a form. It just shows the different apartment that a Team is responsible for -->
         <record model="ir.ui.view" id="apartment_form_view">
             <field name="name">realtor.apartment.form</field>
             <field name="model">realtor.apartment</field>
@@ -71,13 +71,9 @@
                                 <field name="supplier"/>
                                 <field name="best_offer_price"/>
                                 <field name="buyer"/>
-                                <!--                                <field name="best_buyer"/>-->
                                 <field name="disponibility"/>
                             </group>
                         </group>
-                        <!--                        <group name="group_bottom">-->
-                        <!--                            <field name="product_ids"/>-->
-                        <!--                        </group>-->
                     </sheet>
                 </form>
             </field>

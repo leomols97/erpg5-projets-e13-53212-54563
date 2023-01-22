@@ -23,9 +23,9 @@ class Apartment(models.Model):
     # Le chemin pour faire une livraison est Inventaire -> Opérations -> Transferts -> Créer -> Sélectionner Immmobilier ESI comme contact -> Sélectionner le produit -> Sélectionner la quantité -> Choisir le type d'opération -> Marquer à faire -> Valider, malgré le petit warning
     supplier = fields.Many2one('res.partner', string="Fournisseur") #, default=lambda self : self.env['res.partner'].search([('name', '=', 'Immobilier ESI')], limit=1)) # Limit=1 car il faut ne chercher qu'un seul fournisseur
     buyer = fields.Char(string="Acheteur potentiel")
-    # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
-    product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
-    product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
+    # # Les 2 fields suivants permettent, avec les fonctions 'compute_for_only_one_apartment' et 'asset_inverse_for_one_product' d'empêcher qu'un product soit associé à plusieurs apartment et inversement
+    # product_id = fields.Many2one('product.template', compute='compute_for_only_one_apartment', inverse='asset_inverse_for_one_product', string='Premier produit associé à cet appartement')
+    # product_ids = fields.One2many('product.template', 'apartment_id', string='Produits associés à cet appartement')
 
     @api.constrains('date_creation', 'date_disponibility')
     def _check_dates(self):
@@ -97,20 +97,20 @@ class Apartment(models.Model):
         if self.disponibility and datetime.today().date() < self.date_disponibility:
             raise ValidationError( "La date de disponibilité doit être de minimum 3 mois après la création de l’appartement. L'appartement ne peut donc pas être disponible !")
 
-    @api.depends('product_ids')
-    def compute_for_only_one_apartment(self):
-        """ From the apartment, makes the program save only one product at a time """
-        if len(self.product_ids) > 0:
-            self.product_id = self.product_ids[0]
-
-    def asset_inverse_for_one_product(self):
-        """ From the product, makes the program save only one apartment at a time """
-        if len(self.product_ids) > 0:
-            # delete previous reference
-            asset = self.env['product.template'].browse(self.product_ids[0].id)
-            asset.apartment_id = False
-        # set new reference
-        self.product_id.apartment_id = self.product_id
+    # @api.depends('product_ids')
+    # def compute_for_only_one_apartment(self):
+    #     """ From the apartment, makes the program save only one product at a time """
+    #     if len(self.product_ids) > 0:
+    #         self.product_id = self.product_ids[0]
+    #
+    # def asset_inverse_for_one_product(self):
+    #     """ From the product, makes the program save only one apartment at a time """
+    #     if len(self.product_ids) > 0:
+    #         # delete previous reference
+    #         asset = self.env['product.template'].browse(self.product_ids[0].id)
+    #         asset.apartment_id = False
+    #     # set new reference
+    #     self.product_id.apartment_id = self.product_id
 
 
     # def write(self):

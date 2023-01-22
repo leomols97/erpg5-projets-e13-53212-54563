@@ -38,7 +38,7 @@ sinon vers celui de la connexion
         password = form.cleaned_data['password']        
     # Paramètres de connexion
     url = "http://localhost:8069"
-    db = "apa3"
+    db = "dbProject"
 
     # Récupération de la version d’ODOO installée
     common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
@@ -54,13 +54,16 @@ sinon vers celui de la connexion
     except:
         hasRight = False
     if(hasRight):
+        # Création d'une session et tout ce qui va être modifié existera durant la session
+        # Session est un objet qui contient de la variable request
+        # Niveau sécurité, ce n'est pas bon car 'session' a un lien avec les cookies. On ne s'en occupe simplement pas ici.
         request.session['username'] = username
         request.session['password'] = password
         request.session['uid'] = uid
 
         return redirect('/apartmentPurchase/')
     else:
-        print('refresh')
+        print('refresh') # Print dans la console
         return redirect('/connexionOdoo/')
 
 

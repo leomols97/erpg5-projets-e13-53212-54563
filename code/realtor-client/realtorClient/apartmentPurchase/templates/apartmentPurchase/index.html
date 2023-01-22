@@ -8,19 +8,19 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Bonjour {{ request.session.username }}, Voici la liste des appartements !</h2>
+    <h2>Bonjour {{ request.session.username }}. Voici la liste des appartements !</h2>
     
 
     {% for apart in apartments %}
-    <form action="{% url 'verification' %}" method="POST">
+    <form action="{% url 'verification' %}" method="POST"> <!-- On envoie les données vers l'url verification. A voir dans le fichier 'urls.py' -->
         
         
-        {% csrf_token %}
+        {% csrf_token %} <!--pour éviter les attaques CSRF-->
         
 
         <h3 name =" appartements">{{ apart.name }}</h3>
         <h3>{{ apart.description }}</h3>
-        <img  src= "data:image/jpeg;base64,{{ apart.image }}">
+        <img  src= "data:image/jpeg;base64,{{ apart.image }}"> <!--affichage l'image-->
         <h5>Prix attendu : {{ apart.expected_price }} €</h5>
         <h5>Surface de l'appartement : {{ apart.apartment_area }}</h5>
         <h5>Surface de la terasse :{{ apart.terrace_area }}</h5>
@@ -32,9 +32,9 @@
         <h5>fournisseur : {{ apart.supplier }}</h5>
         <h5>Acheteur : {{ apart.buyer }}</h5>
 
-        {% for key, value in request.session.a.items %}
+        {% for apartName, value in request.session.apartDicos.items %}
 
-        {% if key == apart.name %}
+        {% if apartName == apart.name %}
 
         <h5>Quantité disponible dans le stock : {{ value }}<h5>
         {% endif %}
@@ -44,7 +44,7 @@
         <label> nom de l'acheteur : </label>
         <input type="text" name="acheteur">
         <label>montant de l'offre : </label>
-        <input type="number"  name="{{ apart.name }}">
+        <input type="number" name="{{ apart.name }}">
         <input type="submit" value="Submit">
     </form>
         
