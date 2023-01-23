@@ -6,7 +6,7 @@ class OdooParser:
         # Les informations de connexion sont celles qui permmettent d'accéder à l'interface web d'Odoo
         self.port = 8069
         self.url = "http://localhost:8069"
-        self.db = "apa3"
+        self.db = "dbProject"
         self.username = ''
         self.password = ''
         self.uid = None
@@ -86,6 +86,7 @@ class OdooParser:
                     'date_creation',
                     'date_disponibility',
                     'expected_price',
+                    'best_offer_price',
                     'apartment_area',
                     'terrace_area',
                     'total_area',
@@ -135,7 +136,7 @@ class OdooParser:
             # apartment_name = input("Entrez le nom de l'appartement pour lequel vous voulez faire l'offre : ")
             new_offer_price = input("Entrez le prix de votre offre : ")
             user_name = input("Entrez votre nom : ")
-            op._make_offer(new_offer_price, apartment_name, user_name)
+            self._make_offer(new_offer_price, apartment_name, user_name)
         elif userEntry == "n":
             print("Vous n'avez pas fait d'offre.\n")
         else:
@@ -180,13 +181,15 @@ def main():
         functions_to_call = [op._access_apartment_infos]
         op._ask_indefinitely(message_to_display, functions_to_call)
 
-        message_to_display = "Entrez le nom du produit dont vous cherchez les informations ou 'q' pour quitter cet écran : "
+        message_to_display = "Entrez le nom de l'appartement dont vous cherchez les informations ou 'q' pour quitter cet écran : "
         functions_to_call = [op._access_apartment_infos, op._access_product_infos]
         op._ask_indefinitely(message_to_display, functions_to_call)
 
-        message_to_display = "Entrez le nom de l'appartement pour lequel vous voulez faire une offre ou q pour quitter cet écran : "
+        message_to_display = "Entrez le nom de l'appartement pour lequel vous voulez faire une offre ou 'q' pour quitter cet écran : "
         functions_to_call = [op._inputs_to_make_offer]
         op._ask_indefinitely(message_to_display, functions_to_call)
+        
+        print("\n\n Au revoir !\n")
 
     except KeyboardInterrupt:
         print("\n\n Au revoir !\n")

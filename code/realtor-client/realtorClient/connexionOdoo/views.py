@@ -31,11 +31,15 @@ sinon vers celui de la connexion
 
 :param request
 """
-    form = odooForm(request.POST) 
-    
+    form = odooForm(request.POST)
+
+    # Vérifie que les données envoyées sont valides. Si oui, on les enregistre.
+    username = form.data['username']
+    password = form.data['password']
     if form.is_valid():
         username = form.cleaned_data['username']
-        password = form.cleaned_data['password']        
+        password = form.cleaned_data['password']
+
     # Paramètres de connexion
     url = "http://localhost:8069"
     db = "dbProject"

@@ -33,6 +33,14 @@
                 <field name="name">Sam Laicasse</field>
             </record>
 
+            <!--  Initialize a user for the accesses to the DB  -->
+            <record id="user_odoo_parser" model="res.users">
+                <field name="name">Utilisateur Odoo Parser</field>
+                <field name="login">Jordy Nateur</field>
+                <field name="password">computer</field>
+                <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            </record>
+
             <!--  Initialize apartments  -->
             <record model="realtor.apartment" id="realtor_apartment_small_apartment">
                 <field name="name">Small Apartment</field>
@@ -197,16 +205,16 @@
             </record>
 
             <!--<record id="stock_inventory" model="stock.inventory"> -->
-                <!-- <field name="name">Stock Appartement 1</field> -->
-                <!-- '6, 0 [IDs]' remplace la liste des ID liés pour chqque ID de la liste qui suit
-                  https://www.odoo.com/fr_FR/forum/aide-1/how-to-fill-many2many-or-many2one-fields-while-creating-a-record-in-another-model-128503 -->
-                <!-- <field name="product_ids"
-                       eval="[(6, 0,
-               [ref('product_small_apartment'),
-                ref('product_medium_apartment'),
-                ref('product_big_apartment'),
-                ref('product_empty_apartment'),])]"/>
-            </record> -->
+            <!-- <field name="name">Stock Appartement 1</field> -->
+            <!-- '6, 0 [IDs]' remplace la liste des ID liés pour chqque ID de la liste qui suit
+              https://www.odoo.com/fr_FR/forum/aide-1/how-to-fill-many2many-or-many2one-fields-while-creating-a-record-in-another-model-128503 -->
+            <!-- <field name="product_ids"
+                   eval="[(6, 0,
+           [ref('product_small_apartment'),
+            ref('product_medium_apartment'),
+            ref('product_big_apartment'),
+            ref('product_empty_apartment'),])]"/>
+        </record> -->
 
             <function model="stock.inventory" name="_action_start">
                 <function eval="[[('state','=','draft'),('id', '=', ref('stock_inventory'))]]" model="stock.inventory" name="search"/>
